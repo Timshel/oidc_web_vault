@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { Component, computed, inject, OnInit, Signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { RouterModule } from "@angular/router";
-import { map, Observable, switchMap } from "rxjs";
+import { map, Observable, switchMap, of } from "rxjs";
 
 import { JslibModule } from "@bitwarden/angular/jslib.module";
 import { PasswordManagerLogo } from "@bitwarden/assets/svg";
@@ -80,7 +80,7 @@ export class UserLayoutComponent implements OnInit {
       ),
     );
 
-    this.subscriptionRoute$ = this.premiumSubscriptionRoutingService.getSubscriptionRoute$();
+    this.subscriptionRoute$ = of(null); // always hide subscriptions in Vaultwarden
   }
 
   async ngOnInit() {

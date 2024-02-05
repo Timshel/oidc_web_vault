@@ -34,7 +34,6 @@ import { Policy } from "@bitwarden/common/admin-console/models/domain/policy";
 import { AccountService } from "@bitwarden/common/auth/abstractions/account.service";
 import { getUserId } from "@bitwarden/common/auth/services/account.service";
 import { OrganizationMetadataServiceAbstraction } from "@bitwarden/common/billing/abstractions/organization-metadata.service.abstraction";
-import { OrganizationBillingMetadataResponse } from "@bitwarden/common/billing/models/response/organization-billing-metadata.response";
 import { FeatureFlag } from "@bitwarden/common/enums/feature-flag.enum";
 import { ConfigService } from "@bitwarden/common/platform/abstractions/config/config.service";
 import { EnvironmentService } from "@bitwarden/common/platform/abstractions/environment.service";
@@ -159,8 +158,6 @@ export class MembersComponent {
     () => this.organization()?.canManageUsers ?? false,
   );
 
-  protected billingMetadata$: Observable<OrganizationBillingMetadataResponse>;
-
   protected resetPasswordPolicyEnabled$: Observable<boolean>;
 
   // Fixed sizes used for cdkVirtualScroll
@@ -255,17 +252,6 @@ export class MembersComponent {
         takeUntilDestroyed(),
       )
       .subscribe();
-
-    this.billingMetadata$ = organization$.pipe(
-      switchMap((organization) =>
-        this.organizationMetadataService.getOrganizationMetadata$(organization.id),
-      ),
-      shareReplay({ bufferSize: 1, refCount: false }),
-    );
-
-    // Stripe is slow, so kick this off in the background but without blocking page load.
-    // Anyone who needs it will still await the first emission.
-    this.billingMetadata$.pipe(take(1), takeUntilDestroyed()).subscribe();
   }
 
   async load(organization: Organization) {
@@ -321,12 +307,6 @@ export class MembersComponent {
   }
 
   async restore(user: OrganizationUserView, organization: Organization) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-    const seatLimitResult = this.billingConstraint.checkSeatLimit(organization, billingMetadata);
-    if (await this.billingConstraint.seatLimitReached(seatLimitResult, organization, "restore")) {
-      return;
-    }
-
     const result = await this.memberActionsService.restoreUser(organization, user.id);
     const sideEffect = async () => await this.load(organization);
     await this.handleMemberActionResult(result, "restoredUserId", user, sideEffect);
@@ -357,18 +337,11 @@ export class MembersComponent {
   }
 
   async invite(organization: Organization) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-    const seatLimitResult = this.billingConstraint.checkSeatLimit(organization, billingMetadata);
-
-    if (await this.billingConstraint.seatLimitReached(seatLimitResult, organization)) {
-      return;
-    }
-
     const allUsers = this.dataSource().data ?? [];
 
     const result = await this.memberDialogManager.openInviteDialog(
       organization,
-      billingMetadata,
+      undefined,
       allUsers,
     );
 
@@ -383,12 +356,10 @@ export class MembersComponent {
     organization: Organization,
     initialTab: MemberDialogTab = MemberDialogTab.Role,
   ) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-
     const result = await this.memberDialogManager.openEditDialog(
       user,
       organization,
-      billingMetadata,
+      undefined,
       initialTab,
     );
 
@@ -418,14 +389,6 @@ export class MembersComponent {
   }
 
   async bulkRevokeOrRestore(isRevoking: boolean, organization: Organization) {
-    if (!isRevoking) {
-      const billingMetadata = await firstValueFrom(this.billingMetadata$);
-      const seatLimitResult = this.billingConstraint.checkSeatLimit(organization, billingMetadata);
-      if (await this.billingConstraint.seatLimitReached(seatLimitResult, organization, "restore")) {
-        return;
-      }
-    }
-
     const users = this.dataSource().getCheckedUsersWithLimit(MaxCheckedCount);
     await this.memberDialogManager.openBulkRestoreRevokeDialog(organization, users, isRevoking);
     await this.load(organization);

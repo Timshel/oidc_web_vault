@@ -57,7 +57,6 @@ import {
   EnterPaymentMethodComponent,
   getBillingAddressFromForm,
 } from "@bitwarden/web-vault/app/billing/payment/components";
-import { tokenizablePaymentMethodToLegacyEnum } from "@bitwarden/web-vault/app/billing/payment/types";
 import {
   OrganizationSubscriptionPlan,
   OrganizationSubscriptionPurchase,
@@ -576,11 +575,13 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    /* no need to ask /api/plans because Vaultwarden only supports the free plan
     if (!this.selfHosted) {
       await this.loadPlanData();
     }
 
     this._familyPlan = PlanType.FamiliesAnnually;
+    end of asking /api/plans in Vaultwarden */
 
     this.formGroup.controls.name.addValidators([Validators.required, Validators.maxLength(50)]);
     this.formGroup.controls.billingEmail.addValidators(Validators.required);
@@ -675,6 +676,7 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
   }
 
   changedProduct() {
+    return; // no choice of products in Vaultwarden
     const selectedPlan = this.selectablePlans()[0];
 
     if (!selectedPlan) {
@@ -741,13 +743,14 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Validate billing form for paid plans
+    // Validate billing form for paid plans during creation
+    /* don't validate in Vaultwarden because we have no plan selected
     if (this.selectedPlan()?.type !== PlanType.Free) {
       this.billingFormGroup.markAllAsTouched();
       if (this.billingFormGroup.invalid) {
         return;
       }
-    }
+    } */
 
     const doSubmit = async (): Promise<string> => {
       const canUpgradeFromPremium = this.canUpgradeFromPremium();
@@ -903,7 +906,9 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
     request.name = this.formGroup.controls.name.value ?? "";
     request.billingEmail = this.formGroup.controls.billingEmail.value ?? "";
     request.initiationPath = this.initiationPath();
+    request.planType = PlanType.Free; // always select the free plan in Vaultwarden
 
+    /* there is no plan to select in Vaultwarden
     if (this.selectedPlan()!.type === PlanType.Free) {
       request.planType = PlanType.Free;
     } else {
@@ -939,6 +944,7 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
 
     // Secrets Manager
     this.buildSecretsManagerRequest(request);
+    end plan selection and no support for secret manager in Vaultwarden */
 
     if (this.eligibleCouponIds().length > 0) {
       request.coupons = this.eligibleCouponIds();

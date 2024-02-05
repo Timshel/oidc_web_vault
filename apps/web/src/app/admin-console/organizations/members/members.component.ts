@@ -145,8 +145,6 @@ export class vNextMembersComponent {
     () => this.organization()?.canManageUsers ?? false,
   );
 
-  protected billingMetadata$: Observable<OrganizationBillingMetadataResponse>;
-
   protected resetPasswordPolicyEnabled$: Observable<boolean>;
 
   // Fixed sizes used for cdkVirtualScroll
@@ -222,17 +220,6 @@ export class vNextMembersComponent {
         takeUntilDestroyed(),
       )
       .subscribe();
-
-    this.billingMetadata$ = organization$.pipe(
-      switchMap((organization) =>
-        this.organizationMetadataService.getOrganizationMetadata$(organization.id),
-      ),
-      shareReplay({ bufferSize: 1, refCount: false }),
-    );
-
-    // Stripe is slow, so kick this off in the background but without blocking page load.
-    // Anyone who needs it will still await the first emission.
-    this.billingMetadata$.pipe(take(1), takeUntilDestroyed()).subscribe();
   }
 
   async load(organization: Organization) {
@@ -318,18 +305,11 @@ export class vNextMembersComponent {
   }
 
   async invite(organization: Organization) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-    const seatLimitResult = this.billingConstraint.checkSeatLimit(organization, billingMetadata);
-
-    if (await this.billingConstraint.seatLimitReached(seatLimitResult, organization)) {
-      return;
-    }
-
     const allUserEmails = this.dataSource().data?.map((user) => user.email) ?? [];
 
     const result = await this.memberDialogManager.openInviteDialog(
       organization,
-      billingMetadata,
+      undefined,
       allUserEmails,
     );
 
@@ -344,12 +324,10 @@ export class vNextMembersComponent {
     organization: Organization,
     initialTab: MemberDialogTab = MemberDialogTab.Role,
   ) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-
     const result = await this.memberDialogManager.openEditDialog(
       user,
       organization,
-      billingMetadata,
+      undefined,
       initialTab,
     );
 

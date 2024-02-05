@@ -5,14 +5,12 @@ import {
   combineLatest,
   concatMap,
   filter,
-  firstValueFrom,
   from,
   map,
   merge,
   Observable,
   shareReplay,
   switchMap,
-  take,
 } from "rxjs";
 
 import { OrganizationUserUserDetailsResponse } from "@bitwarden/admin-console/common";
@@ -32,7 +30,6 @@ import { Policy } from "@bitwarden/common/admin-console/models/domain/policy";
 import { AccountService } from "@bitwarden/common/auth/abstractions/account.service";
 import { getUserId } from "@bitwarden/common/auth/services/account.service";
 import { OrganizationMetadataServiceAbstraction } from "@bitwarden/common/billing/abstractions/organization-metadata.service.abstraction";
-import { OrganizationBillingMetadataResponse } from "@bitwarden/common/billing/models/response/organization-billing-metadata.response";
 import { ConfigService } from "@bitwarden/common/platform/abstractions/config/config.service";
 import { EnvironmentService } from "@bitwarden/common/platform/abstractions/environment.service";
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
@@ -95,7 +92,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
   protected readonly showUserManagementControls: Signal<boolean> = computed(
     () => this.organization()?.canManageUsers ?? false,
   );
-  protected billingMetadata$: Observable<OrganizationBillingMetadataResponse>;
 
   // Fixed sizes used for cdkVirtualScroll
   protected rowHeight = 66;
@@ -203,17 +199,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
         takeUntilDestroyed(),
       )
       .subscribe();
-
-    this.billingMetadata$ = organization$.pipe(
-      switchMap((organization) =>
-        this.organizationMetadataService.getOrganizationMetadata$(organization.id),
-      ),
-      shareReplay({ bufferSize: 1, refCount: false }),
-    );
-
-    // Stripe is slow, so kick this off in the background but without blocking page load.
-    // Anyone who needs it will still await the first emission.
-    this.billingMetadata$.pipe(take(1), takeUntilDestroyed()).subscribe();
   }
 
   override async load(organization: Organization) {
@@ -317,12 +302,11 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
   }
 
   private async handleInviteDialog(organization: Organization) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
     const allUserEmails = this.dataSource.data?.map((user) => user.email) ?? [];
 
     const result = await this.memberDialogManager.openInviteDialog(
       organization,
-      billingMetadata,
+      undefined,
       allUserEmails,
     );
 
@@ -332,12 +316,8 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
   }
 
   async invite(organization: Organization) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-    const seatLimitResult = this.billingConstraint.checkSeatLimit(organization, billingMetadata);
-    if (!(await this.billingConstraint.seatLimitReached(seatLimitResult, organization))) {
-      await this.handleInviteDialog(organization);
-      this.organizationMetadataService.refreshMetadataCache();
-    }
+    await this.handleInviteDialog(organization);
+    this.organizationMetadataService.refreshMetadataCache();
   }
 
   async edit(
@@ -345,12 +325,10 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
     organization: Organization,
     initialTab: MemberDialogTab = MemberDialogTab.Role,
   ) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-
     const result = await this.memberDialogManager.openEditDialog(
       user,
       organization,
-      billingMetadata,
+      undefined,
       initialTab,
     );
 

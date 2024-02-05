@@ -32,7 +32,6 @@ import { Policy } from "@bitwarden/common/admin-console/models/domain/policy";
 import { AccountService } from "@bitwarden/common/auth/abstractions/account.service";
 import { getUserId } from "@bitwarden/common/auth/services/account.service";
 import { OrganizationMetadataServiceAbstraction } from "@bitwarden/common/billing/abstractions/organization-metadata.service.abstraction";
-import { OrganizationBillingMetadataResponse } from "@bitwarden/common/billing/models/response/organization-billing-metadata.response";
 import { EnvironmentService } from "@bitwarden/common/platform/abstractions/environment.service";
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import { LogService } from "@bitwarden/common/platform/abstractions/log.service";
@@ -144,8 +143,6 @@ export class MembersComponent {
     () => this.organization()?.canManageUsers ?? false,
   );
 
-  protected billingMetadata$: Observable<OrganizationBillingMetadataResponse>;
-
   protected resetPasswordPolicyEnabled$: Observable<boolean>;
 
   // Fixed sizes used for cdkVirtualScroll
@@ -221,17 +218,6 @@ export class MembersComponent {
         takeUntilDestroyed(),
       )
       .subscribe();
-
-    this.billingMetadata$ = organization$.pipe(
-      switchMap((organization) =>
-        this.organizationMetadataService.getOrganizationMetadata$(organization.id),
-      ),
-      shareReplay({ bufferSize: 1, refCount: false }),
-    );
-
-    // Stripe is slow, so kick this off in the background but without blocking page load.
-    // Anyone who needs it will still await the first emission.
-    this.billingMetadata$.pipe(take(1), takeUntilDestroyed()).subscribe();
   }
 
   async load(organization: Organization) {
@@ -317,18 +303,11 @@ export class MembersComponent {
   }
 
   async invite(organization: Organization) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-    const seatLimitResult = this.billingConstraint.checkSeatLimit(organization, billingMetadata);
-
-    if (await this.billingConstraint.seatLimitReached(seatLimitResult, organization)) {
-      return;
-    }
-
     const allUsers = this.dataSource().data ?? [];
 
     const result = await this.memberDialogManager.openInviteDialog(
       organization,
-      billingMetadata,
+      undefined,
       allUsers,
     );
 
@@ -343,12 +322,10 @@ export class MembersComponent {
     organization: Organization,
     initialTab: MemberDialogTab = MemberDialogTab.Role,
   ) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-
     const result = await this.memberDialogManager.openEditDialog(
       user,
       organization,
-      billingMetadata,
+      undefined,
       initialTab,
     );
 

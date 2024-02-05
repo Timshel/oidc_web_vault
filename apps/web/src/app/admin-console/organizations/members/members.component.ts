@@ -116,7 +116,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
     () => this.organization()?.canManageUsers ?? false,
   );
   private refreshBillingMetadata$: BehaviorSubject<null> = new BehaviorSubject(null);
-  protected billingMetadata$: Observable<OrganizationBillingMetadataResponse>;
 
   // Fixed sizes used for cdkVirtualScroll
   protected rowHeight = 66;
@@ -256,18 +255,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
         takeUntilDestroyed(),
       )
       .subscribe();
-
-    this.billingMetadata$ = combineLatest([this.refreshBillingMetadata$, organization$]).pipe(
-      switchMap(([_, organization]) =>
-        this.organizationMetadataService.getOrganizationMetadata$(organization.id),
-      ),
-      takeUntilDestroyed(),
-      shareReplay({ bufferSize: 1, refCount: false }),
-    );
-
-    // Stripe is slow, so kick this off in the background but without blocking page load.
-    // Anyone who needs it will still await the first emission.
-    this.billingMetadata$.pipe(take(1), takeUntilDestroyed()).subscribe();
   }
 
   override async load(organization: Organization) {
@@ -556,14 +543,13 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
   }
 
   private async handleInviteDialog(organization: Organization) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
     const dialog = openUserAddEditDialog(this.dialogService, {
       data: {
         kind: "Add",
         organizationId: organization.id,
         allOrganizationUserEmails: this.dataSource.data?.map((user) => user.email) ?? [],
-        occupiedSeatCount: billingMetadata?.organizationOccupiedSeats ?? 0,
-        isOnSecretsManagerStandalone: billingMetadata?.isOnSecretsManagerStandalone ?? false,
+        occupiedSeatCount: 0,
+        isOnSecretsManagerStandalone: false,
       },
     });
 
@@ -595,29 +581,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
   }
 
   async invite(organization: Organization) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
-    if (
-      organization.hasReseller &&
-      organization.seats === billingMetadata?.organizationOccupiedSeats
-    ) {
-      this.toastService.showToast({
-        variant: "error",
-        title: this.i18nService.t("seatLimitReached"),
-        message: this.i18nService.t("contactYourProvider"),
-      });
-
-      return;
-    }
-
-    if (
-      billingMetadata?.organizationOccupiedSeats === organization.seats &&
-      isFixedSeatPlan(organization.productTierType)
-    ) {
-      await this.handleSeatLimitForFixedTiers(organization);
-
-      return;
-    }
-
     await this.handleInviteDialog(organization);
   }
 
@@ -626,7 +589,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
     organization: Organization,
     initialTab: MemberDialogTab = MemberDialogTab.Role,
   ) {
-    const billingMetadata = await firstValueFrom(this.billingMetadata$);
     const dialog = openUserAddEditDialog(this.dialogService, {
       data: {
         kind: "Edit",
@@ -634,7 +596,7 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
         organizationId: organization.id,
         organizationUserId: user.id,
         usesKeyConnector: user.usesKeyConnector,
-        isOnSecretsManagerStandalone: billingMetadata?.isOnSecretsManagerStandalone ?? false,
+        isOnSecretsManagerStandalone: false,
         initialTab: initialTab,
         managedByOrganization: user.managedByOrganization,
       },

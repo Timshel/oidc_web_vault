@@ -281,9 +281,8 @@ export class ProductSwitcherService {
 
         if (smOrg) {
           bento.push(products.sm);
-        } else if (!shouldDisableSMAds) {
-          // Only show SM in "other" section if ads are not disabled
-          other.push(products.sm);
+        } else {
+          // other.push(products.sm); no ad for secret manager in Vaultwarden
         }
 
         if (acOrg) {
@@ -291,7 +290,7 @@ export class ProductSwitcherService {
         } else if (!userHasSingleOrgPolicy && !vfo1Enabled) {
           // Offered only while VFO1 is off — flag-on, "Add plan" in Settings
           // replaces the Organizations entry point.
-          other.push(products.orgs);
+          // other.push(products.orgs); no add for Organizations in Vaultwarden
         }
 
         if (providers.length > 0) {

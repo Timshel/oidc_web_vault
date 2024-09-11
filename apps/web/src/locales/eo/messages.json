@@ -5265,7 +5265,7 @@
     "message": "Identigilo de la organizo"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Ensalutu per la unika ensaluta portalo de via organizo. Bonvolu enigi la identigilon de via organizo por komenci."
+    "message": "Ensalutu per la unika ensaluta portalo de via organizo."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

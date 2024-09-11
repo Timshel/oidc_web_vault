@@ -8,7 +8,7 @@ export class ServerSettings {
 
   constructor(data?: Partial<ServerSettings>) {
     this.disableUserRegistration = data?.disableUserRegistration ?? false;
-    this.suppressOnboardingInterstitials = data?.suppressOnboardingInterstitials ?? false;
+    this.suppressOnboardingInterstitials = data?.suppressOnboardingInterstitials ?? true;
     this.ssoEnabled = data?.ssoEnabled ?? true;
     this.ssoOnly = data?.ssoOnly ?? false;
     this.ssoOrgExternalId = data?.ssoOrgExternalId ?? false;

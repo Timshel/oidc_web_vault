@@ -52,7 +52,6 @@ import { CryptoFunctionService } from "@bitwarden/legacy-crypto";
 
 import { SsoClientType, SsoComponentService } from "./sso-component.service";
 
-
 interface QueryParams {
   code?: string;
   state?: string;

@@ -34,8 +34,7 @@
       "@bitwarden/tools-card": [".libs/tools/card/src"],
       "@bitwarden/platform": ["./libs/platform/src"],
       "@bitwarden/node/*": ["./libs/node/src/*"],
-      "@bitwarden/vault": ["./libs/vault/src"],
-      "@bitwarden/bit-common/*": ["./bitwarden_license/bit-common/src/*"]
+      "@bitwarden/vault": ["./libs/vault/src"]
     },
     "plugins": [
       {
@@ -43,6 +42,6 @@
       }
     ]
   },
-  "include": ["apps/**/*", "libs/**/*", "bitwarden_license/**/*", "scripts/**/*"],
+  "include": ["apps/**/*", "libs/**/*", "scripts/**/*"],
   "exclude": ["**/build", "**/dist"]
 }

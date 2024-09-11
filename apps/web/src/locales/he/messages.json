@@ -4933,7 +4933,7 @@
     "message": "מזהה ארגוני"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "הכנס באמצעות פורטל ההזדהות האחודה (SSO) הארגוני שלך. אנא הזן את המזהה הארגוני שלך כדי להתחיל."
+    "message": "הכנס באמצעות פורטל ההזדהות האחודה (SSO) הארגוני שלך."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

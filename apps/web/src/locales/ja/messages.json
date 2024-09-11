@@ -4722,7 +4722,7 @@
     "message": "組織識別子"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "組織のシングルサインオンポータルを使用してログインします。開始するには組織の識別子を入力してください。"
+    "message": "組織のシングルサインオンポータルを使用してログインします。"
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

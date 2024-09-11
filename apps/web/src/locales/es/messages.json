@@ -5391,7 +5391,7 @@
     "message": "Identificador de la organización"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Inicie sesión utilizando el portal de inicio de sesión único de su organización. Introduzca el identificador de su organización para comenzar."
+    "message": "Inicie sesión utilizando el portal de inicio de sesión único de su organización."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Introduce el identificador SSO de tu organización para comenzar"

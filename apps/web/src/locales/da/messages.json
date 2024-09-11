@@ -5391,7 +5391,7 @@
     "message": "Organisationsidentifikator"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Log ind via din organisations single sign-on portal. Angiv organisationens SSO-identifikator for at begynde."
+    "message": "Log ind via din organisations single sign-on portal."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Angiv organisationens SSO-identifikator for at begynde"

@@ -5023,7 +5023,7 @@
     "message": "組織識別子"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "組織のシングルサインオンポータルを使用してログインします。開始するには組織の識別子を入力してください。"
+    "message": "組織のシングルサインオンポータルを使用してログインします。"
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "組織の SSO ID を入力して開始します"

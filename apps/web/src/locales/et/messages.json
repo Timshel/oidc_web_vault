@@ -5023,7 +5023,7 @@
     "message": "Organisatsiooni identifikaator"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Sisselogimine läbi organisatsiooni ühekordse sisselogimise portaali. Jätkamiseks sisesta ettevõtte identifikaator."
+    "message": "Sisselogimine läbi organisatsiooni ühekordse sisselogimise portaali."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

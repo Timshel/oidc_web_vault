@@ -5023,7 +5023,7 @@
     "message": "Erakundearen identifikatzailea"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Hasi saioa zure erakundeko atari bakarra erabiliz. Sartu zure erakundearen identifikatzailea hasteko."
+    "message": "Hasi saioa zure erakundeko atari bakarra erabiliz."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

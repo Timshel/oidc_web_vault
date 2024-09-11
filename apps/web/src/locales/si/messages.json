@@ -5397,7 +5397,7 @@
     "message": "Organization identifier"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Log in using your organization's single sign-on portal. Please enter your organization's SSO identifier to begin."
+    "message": "Log in using your organization's single sign-on portal."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

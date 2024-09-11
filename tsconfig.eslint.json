@@ -33,8 +33,7 @@
       "@bitwarden/send-ui": [".libs/tools/send/send-ui/src"],
       "@bitwarden/platform": ["./libs/platform/src"],
       "@bitwarden/node/*": ["./libs/node/src/*"],
-      "@bitwarden/vault": ["./libs/vault/src"],
-      "@bitwarden/bit-common/*": ["./bitwarden_license/bit-common/src/*"]
+      "@bitwarden/vault": ["./libs/vault/src"]
     },
     "plugins": [
       {
@@ -42,6 +41,6 @@
       }
     ]
   },
-  "include": ["apps/**/*", "libs/**/*", "bitwarden_license/**/*"],
+  "include": ["apps/**/*", "libs/**/*"],
   "exclude": ["**/build"]
 }

@@ -13,8 +13,7 @@
           "**/organizations/settings/*",
           "**/organizations/policies/*",
           "@bitwarden/web-vault/*",
-          "src/**/*",
-          "bitwarden_license"
+          "src/**/*"
         ]
       }
     ]

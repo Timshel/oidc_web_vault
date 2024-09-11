@@ -4106,6 +4106,9 @@
       }
     }
   },
+  "errorAdminConfirmUser": {
+    "message": "Failed to confirm user"
+  },
   "editedUserId": {
     "message": "Edited user $ID$.",
     "placeholders": {

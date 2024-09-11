@@ -10,7 +10,7 @@ export class ServerSettings {
 
   constructor(data?: Partial<ServerSettings>) {
     this.disableUserRegistration = data?.disableUserRegistration ?? false;
-    this.suppressOnboardingInterstitials = data?.suppressOnboardingInterstitials ?? false;
+    this.suppressOnboardingInterstitials = data?.suppressOnboardingInterstitials ?? true;
     this.disableEmailVerification = data?.disableEmailVerification ?? false;
     this.disableOpenInviteLinkEmailVerification =
       data?.disableOpenInviteLinkEmailVerification ?? false;

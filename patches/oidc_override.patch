@@ -1,0 +1,297 @@
+Subject: [PATCH] SSO login as default, hide sso identifier
+
+---
+ .../auth/guards/redirect/redirect.guard.ts    |  2 +-
+ .../login/default-login-component.service.ts  |  6 +++--
+ .../login-secondary-content.component.ts      |  6 ++++-
+ .../src/angular/login/login.component.html    |  4 +--
+ .../auth/src/angular/login/login.component.ts | 12 ---------
+ .../common/login-strategies/login.strategy.ts | 27 +++++++------------
+ .../default-login-success-handler.service.ts  |  7 ++---
+ .../src/auth/abstractions/token.service.ts    | 20 +++++++-------
+ .../common/src/auth/services/token.service.ts | 12 ++++-----
+ .../platform/models/domain/server-settings.ts |  2 +-
+ 10 files changed, 40 insertions(+), 58 deletions(-)
+
+diff --git a/libs/angular/src/auth/guards/redirect/redirect.guard.ts b/libs/angular/src/auth/guards/redirect/redirect.guard.ts
+index 33a27dd4bc..30a045d7fc 100644
+--- a/libs/angular/src/auth/guards/redirect/redirect.guard.ts
++++ b/libs/angular/src/auth/guards/redirect/redirect.guard.ts
+@@ -19,7 +19,7 @@ export interface RedirectRoutes {
+ 
+ export const defaultRoutes: RedirectRoutes = {
+   loggedIn: "/vault",
+-  loggedOut: "/login",
++  loggedOut: "/sso",
+   locked: "/lock",
+   notDecrypted: "/login-initiated",
+ };
+diff --git a/libs/auth/src/angular/login/default-login-component.service.ts b/libs/auth/src/angular/login/default-login-component.service.ts
+index 547562d63e..9a887b77bf 100644
+--- a/libs/auth/src/angular/login/default-login-component.service.ts
++++ b/libs/auth/src/angular/login/default-login-component.service.ts
+@@ -76,7 +76,7 @@ export class DefaultLoginComponentService implements LoginComponentService {
+   /**
+    * Set the state that we'll need to verify the SSO login when we get the authorization code back
+    */
+-  private async setSsoPreLoginState(email: string): Promise<[string, string]> {
++  private async setSsoPreLoginState(email: string | undefined): Promise<[string, string]> {
+     // Generate SSO params
+     const passwordOptions: any = {
+       type: "password",
+@@ -107,7 +107,9 @@ export class DefaultLoginComponentService implements LoginComponentService {
+     //    the org SSO identifier. The email address is passed via query param for the other clients.
+     // 2. On all clients, after authentication on the originating client the SSO component
+     //    will need to look up 2FA Remember token by email.
+-    await this.ssoLoginService.setSsoEmail(email);
++    if (email) {
++      await this.ssoLoginService.setSsoEmail(email);
++    }
+ 
+     return [state, codeChallenge];
+   }
+diff --git a/libs/auth/src/angular/login/login-secondary-content.component.ts b/libs/auth/src/angular/login/login-secondary-content.component.ts
+index 14bb7e47c3..7c47be28a9 100644
+--- a/libs/auth/src/angular/login/login-secondary-content.component.ts
++++ b/libs/auth/src/angular/login/login-secondary-content.component.ts
+@@ -13,7 +13,10 @@ import { LinkModule } from "@bitwarden/components";
+ @Component({
+   imports: [CommonModule, JslibModule, LinkModule, RouterModule],
+   template: `
+-    <div class="tw-text-center" *ngIf="!(isUserRegistrationDisabled$ | async)">
++    <div
++      class="tw-text-center"
++      *ngIf="!(isUserRegistrationDisabled$ | async) && !(isSSOOnly$ | async)"
++    >
+       {{ "newAroundHere" | i18n }}
+       <a bitLink routerLink="/signup">{{ "createAccount" | i18n }}</a>
+     </div>
+@@ -23,4 +26,5 @@ export class LoginSecondaryContentComponent {
+   serverSettingsService = inject(DefaultServerSettingsService);
+ 
+   protected isUserRegistrationDisabled$ = this.serverSettingsService.isUserRegistrationDisabled$;
++  protected isSSOOnly$ = this.serverSettingsService.isSSOOnly$;
+ }
+diff --git a/libs/auth/src/angular/login/login.component.html b/libs/auth/src/angular/login/login.component.html
+index e3fd3ed972..74dcb7769f 100644
+--- a/libs/auth/src/angular/login/login.component.html
++++ b/libs/auth/src/angular/login/login.component.html
+@@ -1,7 +1,7 @@
+ <form [bitSubmit]="submit" [formGroup]="formGroup">
+   <div [ngClass]="{ 'tw-hidden': loginUiState !== LoginUiState.EMAIL_ENTRY }">
+     <!-- Email Address input -->
+-    <bit-form-field>
++    <bit-form-field *ngIf="(isSSOEnabled$ | async) && !(isSSOOnly$ | async)">
+       <bit-label>{{ "emailAddress" | i18n }}</bit-label>
+       <input
+         id="email"
+@@ -25,7 +25,7 @@
+     </bit-form-field>
+ 
+     <!-- Remember Email input -->
+-    <bit-form-control>
++    <bit-form-control *ngIf="(isSSOEnabled$ | async) && !(isSSOOnly$ | async)">
+       <input
+         type="checkbox"
+         formControlName="rememberEmail"
+diff --git a/libs/auth/src/angular/login/login.component.ts b/libs/auth/src/angular/login/login.component.ts
+index a0d1fbd858..80acb0c983 100644
+--- a/libs/auth/src/angular/login/login.component.ts
++++ b/libs/auth/src/angular/login/login.component.ts
+@@ -624,19 +624,7 @@ export class LoginComponent implements OnInit, OnDestroy {
+    * @param event - The event object.
+    */
+   async handleSsoClick() {
+-    // Make sure the email is valid
+-    const isEmailValid = this.validateEmail();
+-    if (!isEmailValid) {
+-      return;
+-    }
+-
+-    // Make sure the email is not empty, for type safety
+     const email = this.formGroup.value.email;
+-    if (!email) {
+-      this.logService.error("Email is required for SSO");
+-      return;
+-    }
+-
+     // Send the user to SSO, either through routing or through redirecting to the web app
+     await this.loginComponentService.redirectToSsoLogin(email);
+   }
+diff --git a/libs/auth/src/common/login-strategies/login.strategy.ts b/libs/auth/src/common/login-strategies/login.strategy.ts
+index 052aee03d6..c4d7d2ceed 100644
+--- a/libs/auth/src/common/login-strategies/login.strategy.ts
++++ b/libs/auth/src/common/login-strategies/login.strategy.ts
+@@ -160,15 +160,10 @@ export abstract class LoginStrategy {
+       return userProvidedTwoFactor;
+     }
+ 
+-    if (email) {
+-      const storedTwoFactorToken = await this.tokenService.getTwoFactorToken(email);
+-      if (storedTwoFactorToken != null) {
+-        return new TokenTwoFactorRequest(
+-          TwoFactorProviderType.Remember,
+-          storedTwoFactorToken,
+-          false,
+-        );
+-      }
++    const appId = await this.appIdService.getAppId();
++    const storedTwoFactorToken = await this.tokenService.getTwoFactorToken(appId);
++    if (storedTwoFactorToken != null) {
++      return new TokenTwoFactorRequest(TwoFactorProviderType.Remember, storedTwoFactorToken, false);
+     }
+ 
+     return new TokenTwoFactorRequest();
+@@ -255,10 +250,8 @@ export abstract class LoginStrategy {
+     result.userId = userId;
+ 
+     if (response.twoFactorToken != null) {
+-      // note: we can read email from access token b/c it was saved in saveAccountInformation
+-      const userEmail = await this.tokenService.getEmail();
+-
+-      await this.tokenService.setTwoFactorToken(userEmail, response.twoFactorToken);
++      const appId = await this.appIdService.getAppId();
++      await this.tokenService.setTwoFactorToken(appId, response.twoFactorToken);
+     }
+ 
+     await this.setMasterKey(response, userId);
+@@ -339,13 +332,11 @@ export abstract class LoginStrategy {
+   }
+ 
+   /**
+-   * Clears the 2FA token from the token service using the user's email if it exists
++   * Clears the 2FA token from the token service
+    */
+   private async clearTwoFactorToken() {
+-    const email = this.cache.value.userEnteredEmail;
+-    if (email) {
+-      await this.tokenService.clearTwoFactorToken(email);
+-    }
++    const appId = await this.appIdService.getAppId();
++    await this.tokenService.clearTwoFactorToken(appId);
+   }
+ 
+   /**
+diff --git a/libs/auth/src/common/services/login-success-handler/default-login-success-handler.service.ts b/libs/auth/src/common/services/login-success-handler/default-login-success-handler.service.ts
+index 1bfaac34f1..754ff41460 100644
+--- a/libs/auth/src/common/services/login-success-handler/default-login-success-handler.service.ts
++++ b/libs/auth/src/common/services/login-success-handler/default-login-success-handler.service.ts
+@@ -20,16 +20,13 @@ export class DefaultLoginSuccessHandlerService implements LoginSuccessHandlerSer
+     await this.syncService.fullSync(true, { skipTokenRefresh: true });
+     await this.userAsymmetricKeysRegenerationService.regenerateIfNeeded(userId);
+     await this.loginEmailService.clearLoginEmail();
++
+     try {
+       await this.encryptedMigrator.runMigrations(userId, masterPassword);
+     } catch {
+       // Don't block login success on migration failure
+     }
+ 
+-    const ssoLoginEmail = await this.ssoLoginService.getSsoEmail();
+-    if (ssoLoginEmail) {
+-      await this.ssoLoginService.updateSsoRequiredCache(ssoLoginEmail, userId);
+-      await this.ssoLoginService.clearSsoEmail();
+-    }
++    await this.ssoLoginService.clearSsoEmail();
+   }
+ }
+diff --git a/libs/common/src/auth/abstractions/token.service.ts b/libs/common/src/auth/abstractions/token.service.ts
+index 4bae15efd5..2d1789ab06 100644
+--- a/libs/common/src/auth/abstractions/token.service.ts
++++ b/libs/common/src/auth/abstractions/token.service.ts
+@@ -140,28 +140,28 @@ export abstract class TokenService {
+   abstract getClientSecret(userId: UserId): Promise<string | undefined>;
+ 
+   /**
+-   * Sets the two factor token for the given email in global state.
++   * Sets the two factor token for the given appId in global state.
+    * The two factor token is set when the user checks "remember me" when completing two factor
+    * authentication and it is used to bypass two factor authentication for a period of time.
+-   * @param email The email to set the two factor token for.
++   * @param appId The appId to set the two factor token for.
+    * @param twoFactorToken The two factor token to set.
+    * @returns A promise that resolves when the two factor token has been set.
+    */
+-  abstract setTwoFactorToken(email: string, twoFactorToken: string): Promise<void>;
++  abstract setTwoFactorToken(appId: string, twoFactorToken: string): Promise<void>;
+ 
+   /**
+-   * Gets the two factor token for the given email.
+-   * @param email The email to get the two factor token for.
+-   * @returns A promise that resolves with the two factor token for the given email or null if it isn't found.
++   * Gets the two factor token for the given appId.
++   * @param appId The appId to get the two factor token for.
++   * @returns A promise that resolves with the two factor token for the appId email or null if it isn't found.
+    */
+-  abstract getTwoFactorToken(email: string): Promise<string | null>;
++  abstract getTwoFactorToken(appId: string): Promise<string | null>;
+ 
+   /**
+-   * Clears the two factor token for the given email out of global state.
+-   * @param email The email to clear the two factor token for.
++   * Clears the two factor token for the given appId out of global state.
++   * @param appId The appId to clear the two factor token for.
+    * @returns A promise that resolves when the two factor token has been cleared.
+    */
+-  abstract clearTwoFactorToken(email: string): Promise<void>;
++  abstract clearTwoFactorToken(appId: string): Promise<void>;
+ 
+   /**
+    * Decodes the access token.
+diff --git a/libs/common/src/auth/services/token.service.ts b/libs/common/src/auth/services/token.service.ts
+index e74d034855..21c1a9c38d 100644
+--- a/libs/common/src/auth/services/token.service.ts
++++ b/libs/common/src/auth/services/token.service.ts
+@@ -913,16 +913,16 @@ export class TokenService implements TokenServiceAbstraction {
+     await this.singleUserStateProvider.get(userId, API_KEY_CLIENT_SECRET_DISK).update((_) => null);
+   }
+ 
+-  async setTwoFactorToken(email: string, twoFactorToken: string): Promise<void> {
++  async setTwoFactorToken(appId: string, twoFactorToken: string): Promise<void> {
+     await this.emailTwoFactorTokenRecordGlobalState.update((emailTwoFactorTokenRecord) => {
+       emailTwoFactorTokenRecord ??= {};
+ 
+-      emailTwoFactorTokenRecord[email] = twoFactorToken;
++      emailTwoFactorTokenRecord[appId] = twoFactorToken;
+       return emailTwoFactorTokenRecord;
+     });
+   }
+ 
+-  async getTwoFactorToken(email: string): Promise<string | null> {
++  async getTwoFactorToken(appId: string): Promise<string | null> {
+     const emailTwoFactorTokenRecord: Record<string, string> = await firstValueFrom(
+       this.emailTwoFactorTokenRecordGlobalState.state$,
+     );
+@@ -931,13 +931,13 @@ export class TokenService implements TokenServiceAbstraction {
+       return null;
+     }
+ 
+-    return emailTwoFactorTokenRecord[email];
++    return emailTwoFactorTokenRecord[appId];
+   }
+ 
+-  async clearTwoFactorToken(email: string): Promise<void> {
++  async clearTwoFactorToken(appId: string): Promise<void> {
+     await this.emailTwoFactorTokenRecordGlobalState.update((emailTwoFactorTokenRecord) => {
+       emailTwoFactorTokenRecord ??= {};
+-      delete emailTwoFactorTokenRecord[email];
++      delete emailTwoFactorTokenRecord[appId];
+       return emailTwoFactorTokenRecord;
+     });
+   }
+diff --git a/libs/common/src/platform/models/domain/server-settings.ts b/libs/common/src/platform/models/domain/server-settings.ts
+index 42336b15f9..f855e8c041 100644
+--- a/libs/common/src/platform/models/domain/server-settings.ts
++++ b/libs/common/src/platform/models/domain/server-settings.ts
+@@ -10,7 +10,7 @@ export class ServerSettings {
+     this.disableUserRegistration = data?.disableUserRegistration ?? false;
+     this.suppressOnboardingInterstitials = data?.suppressOnboardingInterstitials ?? true;
+     this.ssoEnabled = data?.ssoEnabled ?? true;
+-    this.ssoOnly = data?.ssoOnly ?? false;
++    this.ssoOnly = data?.ssoOnly ?? true;
+     this.ssoOrgExternalId = data?.ssoOrgExternalId ?? false;
+     this.ssoOrgGroupExternalId = data?.ssoOrgGroupExternalId ?? false;
+   }
+-- 
+2.47.3
+

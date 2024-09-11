@@ -4976,7 +4976,7 @@
     "message": "Organisationskennung"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Melde dich über das Single Sign-on-Portal deiner Organisation an. Bitte gib die SSO-Kennung deiner Organisation ein, um zu beginnen."
+    "message": "Melde dich über das Single Sign-on-Portal deiner Organisation an."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Gib die SSO-Kennung deiner Organisation ein, um zu starten"

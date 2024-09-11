@@ -4298,7 +4298,7 @@
     "message": "Identyfikator organizacji"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Zaloguj się za pomocą logowania jednokrotnego SSO swojej organizacji. Aby rozpocząć, wpisz swój identyfikator organizacji."
+    "message": "Zaloguj się za pomocą logowania jednokrotnego SSO swojej organizacji."
   },
   "enterpriseSingleSignOn": {
     "message": "Logowanie jednokrotne"

@@ -4298,7 +4298,7 @@
     "message": "Organisasjons identifikator"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Logg inn ved hjelp av din organisasjons eneste signalportal. Angi din organisasjons identifikator for å begynne."
+    "message": "Logg inn ved hjelp av din organisasjons eneste signalportal."
   },
   "enterpriseSingleSignOn": {
     "message": "Bedriftsinnlogging (SSO)"

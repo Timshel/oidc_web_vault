@@ -4298,7 +4298,7 @@
     "message": "Təşkilat identifikatoru"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Təşkilatınızın tək daxil olma portalını istifadə edərək giriş edin. Başlatmaq üçün lütfən təşkilatınızın identifikatorunu daxil edin."
+    "message": "Təşkilatınızın tək daxil olma portalını istifadə edərək giriş edin."
   },
   "enterpriseSingleSignOn": {
     "message": "Müəssisə üçün tək daxil olma"

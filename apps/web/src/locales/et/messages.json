@@ -4298,7 +4298,7 @@
     "message": "Organisatsiooni identifikaator"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Sisselogimine läbi organisatsiooni ühekordse sisselogimise portaali. Jätkamiseks sisesta ettevõtte identifikaator."
+    "message": "Sisselogimine läbi organisatsiooni ühekordse sisselogimise portaali."
   },
   "enterpriseSingleSignOn": {
     "message": "Ettevõtte Single Sign-On"

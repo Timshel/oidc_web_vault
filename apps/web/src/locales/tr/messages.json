@@ -4298,7 +4298,7 @@
     "message": "Kuruluş tanımlayıcı"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Kuruluşunuzun tek oturum açma portalını kullanarak giriş yapabilirsiniz. Başlamak için lütfen kuruluşunuzun SSO tanımlayıcısını girin."
+    "message": "Kuruluşunuzun tek oturum açma portalını kullanarak giriş yapabilirsiniz."
   },
   "enterpriseSingleSignOn": {
     "message": "Kurumsal tek oturum açma"

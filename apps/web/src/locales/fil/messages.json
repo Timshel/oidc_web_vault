@@ -4298,7 +4298,7 @@
     "message": "Tagatukoy ng organisasyon"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Mag log in gamit ang single sign on portal ng iyong samahan. Ipasok lamang ang SSO identifier ng iyong organisasyon upang magsimula."
+    "message": "Mag log in gamit ang single sign on portal ng iyong samahan."
   },
   "enterpriseSingleSignOn": {
     "message": "Enterprise Single Sign-On sa Filipino ay Isang Sign-On na Enterprise"

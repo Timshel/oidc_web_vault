@@ -4298,7 +4298,7 @@
     "message": "Organisationens Identifierare"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Logga in genom organisationens inloggningsportal. Ange organisationens identifierare för att börja."
+    "message": "Logga in genom organisationens inloggningsportal."
   },
   "enterpriseSingleSignOn": {
     "message": "Enterprise single sign-on"

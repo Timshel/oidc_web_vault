@@ -4298,7 +4298,7 @@
     "message": "Identificator organizație"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Conectați-vă utilizând portalul de conectare unică al organizației. Pentru a începe, Introduceți vă rog identificatorul organizației dvs."
+    "message": "Conectați-vă utilizând portalul de conectare unică al organizației."
   },
   "enterpriseSingleSignOn": {
     "message": "Autentificare unică întreprindere"

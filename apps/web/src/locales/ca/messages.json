@@ -4298,7 +4298,7 @@
     "message": "Identificador d’organització"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Inicieu la sessió ràpidament mitjançant el portal d'inici de sessió únic de la vostra organització. Introduïu l'identificador de la vostra organització per començar."
+    "message": "Inicieu la sessió ràpidament mitjançant el portal d'inici de sessió únic de la vostra organització."
   },
   "enterpriseSingleSignOn": {
     "message": "Inici de sessió únic d'empresa"

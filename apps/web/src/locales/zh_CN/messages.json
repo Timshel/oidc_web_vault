@@ -4298,7 +4298,7 @@
     "message": "组织标识符"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "要使用您组织的单点登录门户登录。请首先输入您组织的标识符。"
+    "message": "要使用您组织的单点登录门户登录。"
   },
   "enterpriseSingleSignOn": {
     "message": "企业单点登录"

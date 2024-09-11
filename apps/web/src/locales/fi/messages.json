@@ -4298,7 +4298,7 @@
     "message": "Organisaation tunniste"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Kirjaudu organisaatiosi kertakirjautumisportaalista. Aloita syöttämällä organisaatiosi kertakirjautumistunniste."
+    "message": "Kirjaudu organisaatiosi kertakirjautumisportaalista."
   },
   "enterpriseSingleSignOn": {
     "message": "Yrityksen kertakirjautuminen"

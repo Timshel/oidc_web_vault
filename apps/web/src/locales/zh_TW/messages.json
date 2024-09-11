@@ -5034,7 +5034,7 @@
     "message": "組織識別碼"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "若要使用組織的單一登入入口登入。請先輸入您的組織識別碼。"
+    "message": "若要使用組織的單一登入入口登入。"
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

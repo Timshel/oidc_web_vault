@@ -5034,7 +5034,7 @@
     "message": "Identificator organizație"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Conectați-vă utilizând portalul de conectare unică al organizației. Pentru a începe, Introduceți vă rog identificatorul organizației dvs."
+    "message": "Conectați-vă utilizând portalul de conectare unică al organizației."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

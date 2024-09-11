@@ -5034,7 +5034,7 @@
     "message": "Apvienības identifikators"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Pieteikties no apvienības vienotās pieteikšanās portāla. Lūgums ievadīt apvienības identifikatoru, lai sāktu."
+    "message": "Pieteikties no apvienības vienotās pieteikšanās portāla."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Jāievada savas apvienības SSO identifikators, lai sāktu"

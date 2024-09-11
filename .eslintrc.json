@@ -221,15 +221,6 @@
       }
     },
     {
-      "files": ["bitwarden_license/bit-common/src/**/*.ts"],
-      "rules": {
-        "no-restricted-imports": [
-          "error",
-          { "patterns": ["@bitwarden/bit-common/*", "**/src/**/*"] }
-        ]
-      }
-    },
-    {
       "files": ["apps/**/*.ts"],
       "rules": {
         // Catches static imports
@@ -237,7 +228,6 @@
           "error",
           {
             "patterns": [
-              "biwarden_license/**",
               "@bitwarden/bit-common/*",
               "@bitwarden/bit-web/*",
               "**/src/**/*"

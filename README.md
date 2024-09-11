@@ -1,34 +1,59 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/bitwarden/brand/main/screenshots/apps-combo-logo.png" alt="Bitwarden" />
-</p>
-<p align="center">
-  <a href="https://github.com/bitwarden/clients/actions/workflows/build-browser.yml?query=branch:main" target="_blank"><img src="https://github.com/bitwarden/clients/actions/workflows/build-browser.yml/badge.svg?branch=main" alt="GitHub Workflow browser build on main" /></a>
-  <a href="https://github.com/bitwarden/clients/actions/workflows/build-cli.yml?query=branch:main" target="_blank"><img src="https://github.com/bitwarden/clients/actions/workflows/build-cli.yml/badge.svg?branch=main" alt="GitHub Workflow CLI build on main" /></a>
-  <a href="https://github.com/bitwarden/clients/actions/workflows/build-desktop.yml?query=branch:main" target="_blank"><img src="https://github.com/bitwarden/clients/actions/workflows/build-desktop.yml/badge.svg?branch=main" alt="GitHub Workflow desktop build on main" /></a>
-  <a href="https://github.com/bitwarden/clients/actions/workflows/build-web.yml?query=branch:main" target="_blank"><img src="https://github.com/bitwarden/clients/actions/workflows/build-web.yml/badge.svg?branch=main" alt="GitHub Workflow web build on main" /></a>
-  <a href="https://gitter.im/bitwarden/Lobby" target="_blank"><img src="https://badges.gitter.im/bitwarden/Lobby.svg" alt="gitter chat" /></a>
-</p>
+# Web Vault OIDC builds for Vaultwarden
+
+**This project is not associated with the [Bitwarden](https://bitwarden.com/) project nor Bitwarden, Inc.**
 
 ---
 
-# Bitwarden Client Applications
+<br>
 
-This repository houses all Bitwarden client applications except the [Mobile application](https://github.com/bitwarden/mobile).
+This is a repository to store custom builds of the [Bitwarden web vault](https://github.com/bitwarden/clients/tree/master/apps/web) patched to work with [vaultwarden](https://github.com/dani-garcia/vaultwarden) and patched again to obtain a cleaner flow when using an SSO.
 
-Please refer to the [Clients section](https://contributing.bitwarden.com/getting-started/clients/) of the [Contributing Documentation](https://contributing.bitwarden.com/) for build instructions, recommended tooling, code style tips, and lots of other great information to get you started.
+This generate three different versions :
 
-## Related projects:
+- `button` closest to what is expected to be merge into [bw_web_builds](https://github.com/dani-garcia/bw_web_builds))
+  - restore the SSO login button ([patch](oidc_button.patch)) (
+  - allow organization invitation to survive sso account creation ([patch](oidc_invite.patch))
+- `override` add additionally :
+  - set `#sso` as the default redirect url
+  - remove some unnecessary logic ([patch](oidc_override.patch))
+  - display SSO errors and redirect to start of the flow ([patch](oidc_sso_errors.patch))
+- `experimental` which stop sending the Master password hash to the server ([patch](oidc_experimental.patch))
 
-- [bitwarden/server](https://github.com/bitwarden/server): The core infrastructure backend (API, database, Docker, etc).
-- [bitwarden/mobile](https://github.com/bitwarden/mobile): The mobile app vault (iOS and Android).
-- [bitwarden/directory-connector](https://github.com/bitwarden/directory-connector): A tool for syncing a directory (AD, LDAP, Azure, G Suite, Okta) to an organization.
+## Building the web-vault
 
-# We're Hiring!
+To build the web-vault you need node and npm installed.
 
-Interested in contributing in a big way? Consider joining our team! We're hiring for many positions. Please take a look at our [Careers page](https://bitwarden.com/careers/) to see what opportunities are [currently open](https://bitwarden.com/careers/#open-positions) as well as what it's like to work at Bitwarden.
+### Using node 16 and npm
 
-# Contribute
+For a quick and easy local build you can run:
 
-Code contributions are welcome! Please commit any pull requests against the `main` branch. Learn more about how to contribute by reading the [Contributing Guidelines](https://contributing.bitwarden.com/contributing/). Check out the [Contributing Documentation](https://contributing.bitwarden.com/) for how to get started with your first contribution.
+```bash
+./build_webvault.sh
+```
 
-Security audits and feedback are welcome. Please open an issue or email us privately if the report is sensitive in nature. You can read our security policy in the [`SECURITY.md`](SECURITY.md) file.
+This will :
+
+- Clone a specific version of the [Bitwarden web vault](https://github.com/bitwarden/clients/tree/master/apps/web)
+- Clone a specific version of the [VaultWarden web vault builds](https://github.com/dani-garcia/bw_web_builds)
+- Copy ressources from the VaultWarden web vault project
+- Apply the VaultWarden web vault patch
+- Apply the button [patch](oidc_button.patch)
+- Apply the invite [patch](oidc_invite.patch)
+- Build the web vault application
+- Package it as `oidc_button_web_vault.tar.gz`.
+- Apply the override [patch](oidc_override.patch) to improve SSO flow
+- Apply the override [patch](oidc_sso_errors.patch) to improve SSO errors handling
+- Apply the messages [patch](oidc_messages.patch)
+- Build the web vault application
+- Package it as `oidc_override_web_vault.tar.gz`.
+- Apply the experimental [patch](oidc_experimental.patch) to improve SSO errors handling
+- Build the web vault application
+- Package it as `oidc_experimental_web_vault.tar.gz`.
+
+### More information
+
+For more information see: [Install the web-vault](https://github.com/dani-garcia/vaultwarden/wiki/Building-binary#install-the-web-vault)
+
+### Pre-build
+
+The builds are available in the [releases page](https://github.com/Timshel/oidc_web_builds/releases), and can be replicated with the scripts in this repo.

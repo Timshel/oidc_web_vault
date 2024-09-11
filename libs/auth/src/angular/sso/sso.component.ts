@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angula
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { firstValueFrom } from "rxjs";
 
+import { defaultRoutes } from "@bitwarden/angular/auth/guards/redirect/redirect.guard";
 import { JslibModule } from "@bitwarden/angular/jslib.module";
 import {
   LoginStrategyServiceAbstraction,
@@ -580,7 +581,7 @@ export class SsoComponent implements OnInit {
       });
     }
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    await this.router.navigate(["/login"]);
+    await this.router.navigate([defaultRoutes.loggedOut]);
   }
 
   private getOrgIdentifierFromState(state: string): string {

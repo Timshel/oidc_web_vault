@@ -1,0 +1,56 @@
+name: build-and-release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Build and create a release
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code # https://github.com/actions/checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Set TAG variables
+        id: tags_variables
+        run: |
+          set -x
+
+          TAG_CURRENT=$(git describe --abbrev=0 --tags ${{ github.ref }})
+          echo "TAG_CURRENT=$TAG_CURRENT" >> "$GITHUB_ENV"
+
+          echo "CHANGELOG_MESSAGE<<EOF" >> $GITHUB_ENV
+          sed -nzE "s/^.*## $TAG_CURRENT([^#]*).*$/\1/p" CHANGELOG.md  | sed -e '/./,$!d' -e :a -e '/^\n*$/{$d;N;ba' -e '}' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Build
+        run: |
+          ./scripts/build_webvaults.sh
+
+      - name: Create Release # https://github.com/softprops/action-gh-release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.TAG_CURRENT }}
+          body: |
+            ${{ env.CHANGELOG_MESSAGE }}
+
+            :robot: Built by [release.yml](.github/workflows/release.yml) :robot:
+          files: |
+            oidc_button_web_vault.tar.gz
+            oidc_override_web_vault.tar.gz
+            oidc_firefox.xpi
+            oidc_firefox_tosign.xpi
+            oidc_chrome.zip
+          draft: false
+          prerelease: false

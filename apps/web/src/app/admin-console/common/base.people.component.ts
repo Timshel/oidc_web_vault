@@ -390,6 +390,11 @@ export abstract class BasePeopleComponent<
       }
       await confirmUser(publicKey);
     } catch (e) {
+      this.platformUtilsService.showToast(
+        "error",
+        this.i18nService.t("errorAdminConfirmUser"),
+        e.message,
+      );
       this.logService.error(`Handled exception: ${e}`);
     }
   }

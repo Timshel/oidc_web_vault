@@ -1,0 +1,81 @@
+Subject: [PATCH] SSO login as default, hide sso identifier
+
+---
+ .../src/auth/guards/redirect/redirect.guard.ts     |  2 +-
+ .../set-initial-password.component.ts              |  1 +
+ libs/auth/src/angular/sso/sso.component.html       | 14 ++++++++------
+ .../organization-auto-enroll-status.response.ts    |  2 ++
+ 4 files changed, 12 insertions(+), 7 deletions(-)
+
+diff --git a/libs/angular/src/auth/guards/redirect/redirect.guard.ts b/libs/angular/src/auth/guards/redirect/redirect.guard.ts
+index 33a27dd4bc..30a045d7fc 100644
+--- a/libs/angular/src/auth/guards/redirect/redirect.guard.ts
++++ b/libs/angular/src/auth/guards/redirect/redirect.guard.ts
+@@ -19,7 +19,7 @@ export interface RedirectRoutes {
+ 
+ export const defaultRoutes: RedirectRoutes = {
+   loggedIn: "/vault",
+-  loggedOut: "/login",
++  loggedOut: "/sso",
+   locked: "/lock",
+   notDecrypted: "/login-initiated",
+ };
+diff --git a/libs/angular/src/auth/password-management/set-initial-password/set-initial-password.component.ts b/libs/angular/src/auth/password-management/set-initial-password/set-initial-password.component.ts
+index 27d4c11f69..f3cd3bc4bf 100644
+--- a/libs/angular/src/auth/password-management/set-initial-password/set-initial-password.component.ts
++++ b/libs/angular/src/auth/password-management/set-initial-password/set-initial-password.component.ts
+@@ -175,6 +175,7 @@ export class SetInitialPasswordComponent implements OnInit {
+           this.orgSsoIdentifier,
+         );
+         this.orgId = autoEnrollStatus.id;
++        this.orgSsoIdentifier = autoEnrollStatus.identifier;
+         this.resetPasswordAutoEnroll = autoEnrollStatus.resetPasswordEnabled;
+         this.masterPasswordPolicyOptions =
+           await this.policyApiService.getMasterPasswordPolicyOptsForOrgUser(this.orgId);
+diff --git a/libs/auth/src/angular/sso/sso.component.html b/libs/auth/src/angular/sso/sso.component.html
+index 7a3fa8db97..c726e7ff8e 100644
+--- a/libs/auth/src/angular/sso/sso.component.html
++++ b/libs/auth/src/angular/sso/sso.component.html
+@@ -4,13 +4,15 @@
+     {{ "loading" | i18n }}
+   </div>
+   <div *ngIf="!loggingIn">
+-    <bit-form-field>
+-      <bit-label>{{ "ssoIdentifier" | i18n }}</bit-label>
+-      <input bitInput type="text" formControlName="identifier" appAutofocus />
+-    </bit-form-field>
+-    <hr />
+     <div class="tw-flex tw-gap-2">
+-      <button type="submit" bitButton bitFormButton buttonType="primary" [block]="true">
++      <button
++        type="submit"
++        bitButton
++        bitFormButton
++        buttonType="primary"
++        [block]="true"
++        appAutofocus
++      >
+         {{ "continue" | i18n }}
+       </button>
+     </div>
+diff --git a/libs/common/src/admin-console/models/response/organization-auto-enroll-status.response.ts b/libs/common/src/admin-console/models/response/organization-auto-enroll-status.response.ts
+index f2d22fafcd..b27e3f0e25 100644
+--- a/libs/common/src/admin-console/models/response/organization-auto-enroll-status.response.ts
++++ b/libs/common/src/admin-console/models/response/organization-auto-enroll-status.response.ts
+@@ -2,11 +2,13 @@ import { BaseResponse } from "../../../models/response/base.response";
+ 
+ export class OrganizationAutoEnrollStatusResponse extends BaseResponse {
+   id: string;
++  identifier: string;
+   resetPasswordEnabled: boolean;
+ 
+   constructor(response: any) {
+     super(response);
+     this.id = this.getResponseProperty("Id");
++    this.identifier = this.getResponseProperty("Identifier");
+     this.resetPasswordEnabled = this.getResponseProperty("ResetPasswordEnabled");
+   }
+ }
+-- 
+2.39.5
+

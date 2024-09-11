@@ -387,7 +387,11 @@ export class SsoComponent implements OnInit {
         null,
         this.i18nService.t("ssoKeyConnectorError"),
       );
+    } else {
+      this.platformUtilsService.showToast("error", null, e.message);
     }
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    await this.router.navigate(["/sso"]);
   }
 
   private async navigateViaCallbackOrRoute(

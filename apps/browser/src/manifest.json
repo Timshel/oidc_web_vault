@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "OIDCWarden",
   "short_name": "OIDCWarden for AMO",
-  "version": "2026.8.0",
+  "version": "2026.8.1.1",
   "description": "Extension for OIDCWarden and Vaultwarden",
   "default_locale": "en",
   "author": "Timshel",

@@ -1,8 +1,0 @@
-./libs/angular/src/directives/cipherListVirtualScroll.directive.ts
-./LICENSE_BITWARDEN.txt
-./CONTRIBUTING.md
-./LICENSE_GPL.txt
-./LICENSE.txt
-./apps/web/Dockerfile
-./SECURITY.md
-./libs/nx-plugin/src/generators/files/README.md__tmpl__

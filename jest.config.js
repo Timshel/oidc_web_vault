@@ -17,7 +17,6 @@ module.exports = {
   }),
   projects: [
     "<rootDir>/apps/web/jest.config.js",
-
     "<rootDir>/libs/admin-console/jest.config.js",
     "<rootDir>/libs/angular/jest.config.js",
     "<rootDir>/libs/assets/jest.config.js",

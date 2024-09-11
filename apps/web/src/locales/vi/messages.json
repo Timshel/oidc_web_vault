@@ -5316,7 +5316,7 @@
     "message": "Mã định danh tổ chức"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Đăng nhập bằng cổng đăng nhập một lần của tổ chức bạn. Vui lòng nhập mã định danh SSO của tổ chức để bắt đầu."
+    "message": "Đăng nhập bằng cổng đăng nhập một lần của tổ chức bạn."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Nhập mã định danh SSO của tổ chức bạn để bắt đầu"

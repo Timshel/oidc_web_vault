@@ -5316,7 +5316,7 @@
     "message": "Ідэнтыфікатар арганізацыі"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Уваходзьце з выкарыстаннем партала адзінага ўваходу вашай арганізацыі. Калі ласка, увядзіце ідэнтыфікатар вашай арганізацыі для пачатку працы."
+    "message": "Уваходзьце з выкарыстаннем партала адзінага ўваходу вашай арганізацыі."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

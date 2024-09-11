@@ -5316,7 +5316,7 @@
     "message": "Identificador d’organització"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Inicieu la sessió ràpidament mitjançant el portal d'inici de sessió únic de la vostra organització. Introduïu l'identificador de la vostra organització per començar."
+    "message": "Inicieu la sessió ràpidament mitjançant el portal d'inici de sessió únic de la vostra organització."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

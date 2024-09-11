@@ -5316,7 +5316,7 @@
     "message": "Identifikátor organizace"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Přihlaste se pomocí přihlašovacího portálu Vaší organizace. Chcete-li začít, zadejte identifikátor Vaší organizace."
+    "message": "Přihlaste se pomocí přihlašovacího portálu vaší organizace."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Chcete-li začít, zadejte SSO identifikátor Vaší organizace"

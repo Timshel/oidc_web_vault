@@ -8,7 +8,6 @@ import {
   concatMap,
   debounceTime,
   filter,
-  firstValueFrom,
   from,
   map,
   merge,
@@ -16,7 +15,6 @@ import {
   shareReplay,
   startWith,
   switchMap,
-  take,
 } from "rxjs";
 
 import { UserNamePipe } from "@bitwarden/angular/pipes/user-name.pipe";

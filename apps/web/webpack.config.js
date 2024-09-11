@@ -190,7 +190,7 @@ const devServer =
     ? {}
     : {
         server: {
-          type: "https",
+          type: envConfig.dev?.protocol ?? "https",
           options: {
             key: fs.readFileSync("dev-server" + certSuffix + ".pem"),
             cert: fs.readFileSync("dev-server" + certSuffix + ".pem"),
@@ -231,6 +231,13 @@ const devServer =
             context: ["/icons"],
             target: envConfig.dev?.proxyIcons,
             pathRewrite: { "^/icons": "" },
+            secure: false,
+            changeOrigin: true,
+          },
+          {
+            context: ["/css"],
+            target: envConfig.dev?.proxyCss,
+            pathRewrite: { "^/css": "" },
             secure: false,
             changeOrigin: true,
           },

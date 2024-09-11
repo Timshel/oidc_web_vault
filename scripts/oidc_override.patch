@@ -1,0 +1,13 @@
+diff --git a/libs/angular/src/auth/guards/redirect.guard.ts b/libs/angular/src/auth/guards/redirect.guard.ts
+index 760558dfb5..5df179f8b0 100644
+--- a/libs/angular/src/auth/guards/redirect.guard.ts
++++ b/libs/angular/src/auth/guards/redirect.guard.ts
+@@ -17,7 +17,7 @@ export interface RedirectRoutes {
+ 
+ const defaultRoutes: RedirectRoutes = {
+   loggedIn: "/vault",
+-  loggedOut: "/login",
++  loggedOut: "/sso",
+   locked: "/lock",
+   notDecrypted: "/login-initiated",
+ };

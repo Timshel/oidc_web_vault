@@ -51,7 +51,6 @@ import { PasswordGenerationServiceAbstraction } from "@bitwarden/generator-legac
 
 import { SsoClientType, SsoComponentService } from "./sso-component.service";
 
-
 interface QueryParams {
   code?: string;
   state?: string;
@@ -644,6 +643,6 @@ export class SsoComponent implements OnInit {
     }
 
     // Lastly, set the dummy value
-    this.identifierFormControl.setValue("VW_DUMMY_IDENTIFIER_FOR_OIDC");
+    this.identifierFormControl.setValue("vaultwarden-dummy-oidc-identifier");
   }
 }

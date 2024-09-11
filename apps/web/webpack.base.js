@@ -239,7 +239,7 @@ module.exports.buildConfig = function buildConfig(params) {
       ? {}
       : {
           server: {
-            type: "https",
+            type: envConfig.dev?.protocol ?? "https",
             options: {
               key: fs.readFileSync(path.resolve(__dirname, "dev-server" + certSuffix + ".pem")),
               cert: fs.readFileSync(path.resolve(__dirname, "dev-server" + certSuffix + ".pem")),
@@ -287,6 +287,13 @@ module.exports.buildConfig = function buildConfig(params) {
               context: ["/key-connector"],
               target: envConfig.dev?.proxyKeyConnector,
               pathRewrite: { "^/key-connector": "" },
+              secure: false,
+              changeOrigin: true,
+            },
+            {
+              context: ["/css"],
+              target: envConfig.dev?.proxyCss,
+              pathRewrite: { "^/css": "" },
               secure: false,
               changeOrigin: true,
             },

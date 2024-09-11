@@ -1,0 +1,49 @@
+diff --git a/apps/web/src/app/auth/sso.component.html b/apps/web/src/app/auth/sso.component.html
+index 59abc92e87..0a136f5a4f 100644
+--- a/apps/web/src/app/auth/sso.component.html
++++ b/apps/web/src/app/auth/sso.component.html
+@@ -5,18 +5,11 @@
+   </div>
+   <div *ngIf="!loggingIn">
+     <p bitTypography="body1">{{ "ssoLogInWithOrgIdentifier" | i18n }}</p>
+-    <bit-form-field>
+-      <bit-label>{{ "ssoIdentifier" | i18n }}</bit-label>
+-      <input bitInput type="text" formControlName="identifier" appAutofocus />
+-    </bit-form-field>
+     <hr />
+     <div class="tw-flex tw-gap-2">
+       <button type="submit" bitButton bitFormButton buttonType="primary" [block]="true">
+         {{ "logIn" | i18n }}
+       </button>
+-      <a bitButton buttonType="secondary" routerLink="/login" [block]="true">
+-        {{ "cancel" | i18n }}
+-      </a>
+     </div>
+   </div>
+ </form>
+diff --git a/apps/web/src/app/auth/sso.component.ts b/apps/web/src/app/auth/sso.component.ts
+index 93a00054eb..e4151b84fa 100644
+--- a/apps/web/src/app/auth/sso.component.ts
++++ b/apps/web/src/app/auth/sso.component.ts
+@@ -34,7 +34,7 @@ import { PasswordGenerationServiceAbstraction } from "@bitwarden/generator-legac
+ // eslint-disable-next-line rxjs-angular/prefer-takeuntil
+ export class SsoComponent extends BaseSsoComponent implements OnInit {
+   protected formGroup = new FormGroup({
+-    identifier: new FormControl(null, [Validators.required]),
++    identifier: new FormControl("Vaultwarden", [Validators.required]),
+   });
+ 
+   get identifierFormControl() {
+diff --git a/libs/angular/src/auth/guards/redirect.guard.ts b/libs/angular/src/auth/guards/redirect.guard.ts
+index 760558dfb5..5df179f8b0 100644
+--- a/libs/angular/src/auth/guards/redirect.guard.ts
++++ b/libs/angular/src/auth/guards/redirect.guard.ts
+@@ -17,7 +17,7 @@ export interface RedirectRoutes {
+ 
+ const defaultRoutes: RedirectRoutes = {
+   loggedIn: "/vault",
+-  loggedOut: "/login",
++  loggedOut: "/sso",
+   locked: "/lock",
+   notDecrypted: "/login-initiated",
+ };

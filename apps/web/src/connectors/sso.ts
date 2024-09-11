@@ -12,13 +12,13 @@ window.addEventListener("load", () => {
   } else if (state != null && state.includes(":clientId=browser")) {
     initiateBrowserSso(code, state, false);
   } else {
-    window.location.href = window.location.origin + "/#/sso?code=" + code + "&state=" + state;
+    const baseUrl = window.location.href.replace(/\/sso-connector.html.*$/, "");
     // Match any characters between "_returnUri='" and the next "'"
     const returnUri = extractFromRegex(state, "(?<=_returnUri=')(.*)(?=')");
     if (returnUri) {
-      window.location.href = window.location.origin + `/#${returnUri}`;
+      window.location.href = baseUrl + `/#${returnUri}`;
     } else {
-      window.location.href = window.location.origin + "/#/sso?code=" + code + "&state=" + state;
+      window.location.href = baseUrl + "/#/sso?code=" + code + "&state=" + state;
     }
   }
 });

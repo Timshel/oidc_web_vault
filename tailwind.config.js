@@ -17,7 +17,6 @@ config.content = [
   ...webConfig.webContent,
   ...browserConfig.browserContent,
   ...desktopConfig.desktopContent,
-  path.resolve(__dirname, ".storybook/preview.tsx"),
 ];
 
 // Safelist is required for dynamic color classes in Storybook color documentation (colors.mdx).

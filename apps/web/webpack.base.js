@@ -280,6 +280,13 @@ module.exports.buildConfig = function buildConfig(params) {
               secure: false,
               changeOrigin: true,
             },
+            {
+              context: ["/css"],
+              target: envConfig.dev?.proxyCss,
+              pathRewrite: { "^/css": "" },
+              secure: false,
+              changeOrigin: true,
+            },
           ],
           headers: (req) => {
             if (!req.originalUrl.includes("connector.html")) {

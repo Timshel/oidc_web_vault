@@ -5211,7 +5211,7 @@
     "message": "معرف المنظمة"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "قم بتسجيل الدخول بسرعة باستخدام بوابة تسجيل الدخول الأحادي لمؤسستك. الرجاء إدخال معرف الـSSO الخاص بمؤسستك للبدء."
+    "message": "قم بتسجيل الدخول بسرعة باستخدام بوابة تسجيل الدخول الأحادي لمؤسستك."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

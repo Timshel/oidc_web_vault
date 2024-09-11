@@ -5211,7 +5211,7 @@
     "message": "Identifikátor organizácie"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Prihláste sa prostredníctvom jednotného prihlásenie (SSO) vašej organizácie. Najskôr zadajte identifikátor vašej organizácie."
+    "message": "Prihláste sa prostredníctvom jednotného prihlásenie (SSO) vašej organizácie."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Ak chcete začať, zadajte identifikátor SSO vašej organizácie"

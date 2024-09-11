@@ -5217,7 +5217,7 @@
     "message": "Başlamaq üçün təşkilatınızın SSO identifikatorunu daxil edin"
   },
   "singleSignOnEnterOrgIdentifierText": {
-    "message": "SSO provayderinizlə giriş etmək üçün başlamaq üzrə təşkilatınızın SSO identifikatorunu daxil edin. Yeni bir cihazdan giriş etdiyiniz zaman bu SSO identifikatorunu daxil etməyiniz lazım gələ bilər."
+    "message": "SSO provayderinizlə giriş etmək üçün başlamaq üzrə təşkilatınızın SSO identifikatorunu daxil edin."
   },
   "enterpriseSingleSignOn": {
     "message": "Müəssisə üçün vahid daxil olma"

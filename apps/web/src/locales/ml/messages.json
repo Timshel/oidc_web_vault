@@ -5211,7 +5211,7 @@
     "message": "സംഘടനയുടെ ഐഡന്റിഫയർ"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "നിങ്ങളുടെ സംഘടനയുടെ സിംഗിൾ സൈൻ-ഓൺ പോർട്ടൽ ഉപയോഗിച്ച് വേഗത്തിൽ ലോഗിൻ ചെയ്യുക. ആരംഭിക്കുന്നതിന് ദയവായി നിങ്ങളുടെ സംഘടനയുടെ ഐഡന്റിഫയർ നൽകുക."
+    "message": "നിങ്ങളുടെ സംഘടനയുടെ സിംഗിൾ സൈൻ-ഓൺ പോർട്ടൽ ഉപയോഗിച്ച് വേഗത്തിൽ ലോഗിൻ ചെയ്യുക."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

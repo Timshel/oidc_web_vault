@@ -5023,7 +5023,7 @@
     "message": "Identifiant de l'organisation"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Connectez-vous en utilisant le portail de connexion unique de votre organisation. Veuillez entrer l'identifiant de votre organisation pour commencer."
+    "message": "Connectez-vous en utilisant le portail de connexion unique de votre organisation."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Entrez l'identifiant SSO de votre organisation pour commencer"

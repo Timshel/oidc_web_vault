@@ -5023,7 +5023,7 @@
     "message": "Organisatie-identificatie"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Inloggen met het single sign-on portaal van je organisatie. Voer de identificatie van je organisatie in om te beginnen."
+    "message": "Inloggen met het single sign-on portaal van je organisatie."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Voer het SSO-nummer van je organisatie in om te beginnen"

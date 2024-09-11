@@ -5587,7 +5587,7 @@
     "message": "Organisasjons identifikator"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Logg inn via organisasjonens portal for enkel pålogging. Skriv inn organisasjonens SSO-identifikator for å starte."
+    "message": "Logg inn via organisasjonens portal for enkel pålogging."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Skriv inn organisasjonens SSO-identifikator for å starte"

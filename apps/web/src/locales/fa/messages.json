@@ -4988,7 +4988,7 @@
     "message": "شناسه سازمان"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "با استفاده از پورتال ورود واحد سازمان خود وارد شوید. لطفاً برای شروع، شناسه SSO سازمان خود را وارد کنید."
+    "message": "با استفاده از پورتال ورود واحد سازمان خود وارد شوید."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

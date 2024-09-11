@@ -41,7 +41,7 @@ import {
 } from "@bitwarden/common/platform/abstractions/sdk/sdk.service";
 import { Utils } from "@bitwarden/common/platform/misc/utils";
 import { OrganizationId } from "@bitwarden/common/types/guid";
-import { DialogService } from "@bitwarden/components";
+import { DialogService, ToastService } from "@bitwarden/components";
 // eslint-disable-next-line no-restricted-imports
 import { LegacyCompatKeyService } from "@bitwarden/legacy-crypto";
 import {
@@ -83,6 +83,8 @@ export class MemberActionsService {
   private accountService = inject(AccountService);
   private sdkService = inject(SdkService);
   private i18nService = inject(I18nService);
+
+  protected toastService = inject(ToastService);
 
   readonly isProcessing = signal(false);
 
@@ -487,6 +489,12 @@ export class MemberActionsService {
 
       return publicKey;
     } catch (e) {
+      this.toastService.showToast({
+        variant: "error",
+        title: this.i18nService.t("errorAdminConfirmUser"),
+        message: e.message,
+      });
+
       this.logService.error(`Handled exception: ${e}`);
     }
   }

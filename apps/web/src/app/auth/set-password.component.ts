@@ -24,7 +24,7 @@ export class SetPasswordComponent extends BaseSetPasswordComponent {
     await super.onSetPasswordSuccess(masterKey, userKey, keyPair);
     // SSO JIT accepts org invites when setting their MP, meaning
     // we can clear the deep linked url for accepting it.
-    await this.routerService.getAndClearLoginRedirectUrl();
-    await this.acceptOrganizationInviteService.clearOrganizationInvitation();
+    // await this.routerService.getAndClearLoginRedirectUrl();
+    // await this.acceptOrganizationInviteService.clearOrganizationInvitation();
   }
 }

@@ -19,11 +19,13 @@ import { OrganizationMetadataServiceAbstraction } from "@bitwarden/common/billin
 import { FeatureFlag } from "@bitwarden/common/enums/feature-flag.enum";
 import { ListResponse } from "@bitwarden/common/models/response/list.response";
 import { ConfigService } from "@bitwarden/common/platform/abstractions/config/config.service";
+import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import { LogService } from "@bitwarden/common/platform/abstractions/log.service";
 import { Utils } from "@bitwarden/common/platform/misc/utils";
-import { DialogService } from "@bitwarden/components";
+import { DialogService , ToastService } from "@bitwarden/components";
 import { KeyService } from "@bitwarden/key-management";
 import { ProviderUser } from "@bitwarden/web-vault/app/admin-console/common/people-table-data-source";
+
 
 import { OrganizationUserView } from "../../../core/views/organization-user.view";
 import { UserConfirmComponent } from "../../../manage/user-confirm.component";
@@ -54,6 +56,9 @@ export class MemberActionsService {
   private orgManagementPrefs = inject(OrganizationManagementPreferencesService);
   private userNamePipe = inject(UserNamePipe);
   private memberDialogManager = inject(MemberDialogManagerService);
+
+  private i18nService = inject(I18nService);
+  protected toastService = inject(ToastService);
 
   readonly isProcessing = signal(false);
 
@@ -359,6 +364,12 @@ export class MemberActionsService {
 
       return publicKey;
     } catch (e) {
+      this.toastService.showToast({
+        variant: "error",
+        title: this.i18nService.t("errorAdminConfirmUser"),
+        message: e.message,
+      });
+
       this.logService.error(`Handled exception: ${e}`);
     }
   }

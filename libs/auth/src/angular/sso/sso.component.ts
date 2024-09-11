@@ -50,7 +50,6 @@ import { PasswordGenerationServiceAbstraction } from "@bitwarden/generator-legac
 
 import { SsoClientType, SsoComponentService } from "./sso-component.service";
 
-
 interface QueryParams {
   code?: string;
   state?: string;

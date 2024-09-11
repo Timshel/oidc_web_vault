@@ -5104,7 +5104,7 @@
     "message": "Organisasie-identifiseerder"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Teken vinnig aan d.m.v. u organisasie se enkelaantekenportaal (SSO). Voer u organisasie se identifiseerder in om te begin."
+    "message": "Teken vinnig aan d.m.v. u organisasie se enkelaantekenportaal (SSO)."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

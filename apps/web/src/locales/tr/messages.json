@@ -5104,7 +5104,7 @@
     "message": "Kuruluş tanımlayıcı"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Kuruluşunuzun çoklu oturum açma portalını kullanarak giriş yapabilirsiniz. Başlamak için lütfen kuruluşunuzun SSO tanımlayıcısını girin."
+    "message": "Kuruluşunuzun çoklu oturum açma portalını kullanarak giriş yapabilirsiniz."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Başlamak için kuruluşunuzun SSO tanımlayıcısını girin"

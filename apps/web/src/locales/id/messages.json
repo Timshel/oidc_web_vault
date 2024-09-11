@@ -5104,7 +5104,7 @@
     "message": "Pengenal Organisasi"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "Masuk menggunakan portal sistem masuk tunggal organisasi Anda. Harap masukkan pengenal organisasi Anda untuk memulai."
+    "message": "Masuk menggunakan portal sistem masuk tunggal organisasi Anda."
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "Enter your organization's SSO identifier to begin"

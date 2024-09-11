@@ -4790,6 +4790,9 @@
       }
     }
   },
+  "errorAdminConfirmUser": {
+    "message": "Failed to confirm user"
+  },
   "unlinkedSso": {
     "message": "Unlinked SSO."
   },

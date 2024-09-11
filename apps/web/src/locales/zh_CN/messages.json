@@ -4976,7 +4976,7 @@
     "message": "组织标识符"
   },
   "ssoLogInWithOrgIdentifier": {
-    "message": "使用您组织的单点登录门户登录。请输入您组织的 SSO 标识符以开始。"
+    "message": "使用您组织的单点登录门户登录。"
   },
   "singleSignOnEnterOrgIdentifier": {
     "message": "输入您组织的 SSO 标识符以开始"

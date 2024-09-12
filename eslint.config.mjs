@@ -82,7 +82,6 @@ export default tseslint.config(
       "@bitwarden/platform/required-using": "error",
       "@bitwarden/platform/no-enums": "error",
       "@bitwarden/platform/no-page-script-url-leakage": "error",
-      "@bitwarden/components/require-theme-colors-in-svg": "error",
 
       "@typescript-eslint/explicit-member-accessibility": ["error", { accessibility: "no-public" }],
       "@typescript-eslint/no-explicit-any": "off", // TODO: This should be re-enabled

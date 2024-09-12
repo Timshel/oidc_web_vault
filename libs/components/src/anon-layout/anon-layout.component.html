@@ -5,24 +5,6 @@
     'tw-min-h-full': clientType === 'browser' || clientType === 'desktop',
   }"
 >
-  <div
-    [class]="
-      'tw-flex tw-justify-between tw-items-center tw-w-full' + (!hideLogo() ? ' tw-mb-12' : '')
-    "
-  >
-    @if (!hideLogo()) {
-      <a
-        [routerLink]="['/']"
-        class="tw-w-32 sm:tw-w-[175px] tw-self-center sm:tw-self-start tw-block [&>*]:tw-align-top"
-      >
-        <bit-icon [icon]="logo" [ariaLabel]="'appLogoLabel' | i18n"></bit-icon>
-      </a>
-    }
-    <div class="tw-ms-auto">
-      <ng-content select="[slot=header-actions]"></ng-content>
-    </div>
-  </div>
-
   <div class="tw-text-center tw-mb-4 sm:tw-mb-6 tw-mx-auto" [ngClass]="maxWidthClass">
     @let iconInput = icon();
 
@@ -78,7 +60,6 @@
       }
 
       @if (!hideYearAndVersion) {
-        <div bitTypography="body2">&copy; {{ year }} Bitwarden Inc.</div>
         <div bitTypography="body2">{{ version }}</div>
       }
     </footer>

@@ -139,6 +139,7 @@ export class OrganizationLayoutComponent implements OnInit {
   }
 
   canShowBillingTab(organization: Organization): boolean {
+    return false; // disable billing tab
     return canAccessBillingTab(organization);
   }
 

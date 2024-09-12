@@ -9,10 +9,6 @@
     'tw-min-h-[calc(100vh-54px)]': clientType === 'desktop',
   }"
 >
-  <a *ngIf="!hideLogo" [routerLink]="['/']" class="tw-w-[128px] [&>*]:tw-align-top">
-    <bit-icon [icon]="logo"></bit-icon>
-  </a>
-
   <div class="tw-text-center">
     <div class="tw-mx-auto tw-max-w-28 sm:tw-max-w-32">
       <bit-icon [icon]="icon"></bit-icon>
@@ -50,7 +46,6 @@
       <ng-content select="[slot=environment-selector]"></ng-content>
     </ng-container>
     <ng-container *ngIf="!hideYearAndVersion">
-      <div>&copy; {{ year }} Bitwarden Inc.</div>
       <div>{{ version }}</div>
     </ng-container>
   </footer>

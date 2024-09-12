@@ -12,7 +12,7 @@ import { LinkModule } from "@bitwarden/components";
   imports: [CommonModule, JslibModule, LinkModule, RouterModule],
   template: `
     <div class="tw-text-center" *ngIf="!(isUserRegistrationDisabled$ | async)">
-      {{ "newToBitwarden" | i18n }}
+      {{ "newAroundHere" | i18n }}
       <a bitLink routerLink="/signup">{{ "createAccount" | i18n }}</a>
     </div>
   `,

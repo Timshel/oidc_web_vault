@@ -1,6 +1,11 @@
 <app-layout>
   <app-side-nav variant="secondary" *ngIf="organization$ | async as organization">
-    <bit-nav-logo [openIcon]="logo" route="." [label]="'adminConsole' | i18n"></bit-nav-logo>
+    <bit-nav-logo
+      [openIcon]="logo"
+      [closedIcon]="'bwi-business'"
+      route="."
+      [label]="'adminConsole' | i18n"
+    ></bit-nav-logo>
     <org-switcher [filter]="orgFilter" [hideNewButton]="hideNewOrgButton$ | async"></org-switcher>
     <bit-nav-group
       icon="bwi-dashboard"

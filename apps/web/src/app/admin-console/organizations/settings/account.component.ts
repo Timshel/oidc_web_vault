@@ -80,7 +80,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.selfHosted = this.platformUtilsService.isSelfHost();
+    this.selfHosted = false; // set to false so we can rename organizations
 
     this.route.params
       .pipe(
@@ -171,6 +171,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   };
 
   submitCollectionManagement = async () => {
+    return; // flexible collections are not supported
     // Early exit if self-hosted
     if (this.selfHosted) {
       return;

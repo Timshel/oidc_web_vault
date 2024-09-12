@@ -14,16 +14,16 @@
   --color-background: 255 255 255;
   --color-background-alt: 251 251 251;
   --color-background-alt2: 23 92 219;
-  --color-background-alt3: 18 82 163;
-  --color-background-alt4: 13 60 119;
+  --color-background-alt3: 33 37 41; /* bg of menu panel */
+  --color-background-alt4: 16 18 21; /* bg of active menu item */
 
   /* Can only be used behind the extension refresh flag */
   --color-primary-100: 200 217 249;
-  --color-primary-300: 103 149 232;
+  --color-primary-300: 108 117 125; /* hover of menu items */
   /* Can only be used behind the extension refresh flag */
   --color-primary-500: 23 93 220;
-  --color-primary-600: 23 93 220;
-  --color-primary-700: 18 82 163;
+  --color-primary-600: 18 82 163; /* color of links and buttons */
+  --color-primary-700: 13 60 119; /* hover of links and buttons */
 
   --color-secondary-100: 240 240 240;
   --color-secondary-300: 206 212 220;

@@ -245,7 +245,7 @@ const routes: Routes = [
         canActivate: [unauthGuardFn()],
         data: {
           pageTitle: {
-            key: "loginPageEmailEntryScreenTitle",
+            key: "logIn",
           },
           pageIcon: VaultIcon,
         } satisfies RouteDataProperties & AnonLayoutWrapperData,
@@ -388,9 +388,6 @@ const routes: Routes = [
             key: "singleSignOn",
           },
           titleId: "enterpriseSingleSignOn",
-          pageSubtitle: {
-            key: "singleSignOnEnterOrgIdentifierText",
-          },
           pageIcon: SsoKeyIcon,
         } satisfies RouteDataProperties & AnonLayoutWrapperData,
         children: [

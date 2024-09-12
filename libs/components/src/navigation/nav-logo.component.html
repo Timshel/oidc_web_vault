@@ -8,7 +8,7 @@
   <!-- absolutely position the link svg to avoid shifting layout when sidenav is closed -->
   <a
     [routerLink]="route()"
-    class="tw-relative tw-p-3 tw-block tw-rounded-md tw-bg-background-alt3 tw-outline-none focus-visible:tw-ring focus-visible:tw-ring-inset focus-visible:tw-ring-text-alt2 hover:tw-bg-hover-contrast tw-h-[73px] [&_svg]:tw-absolute [&_svg]:tw-inset-[theme(spacing.3)] [&_svg]:tw-w-[calc(100%_-_theme(spacing.6))] [&_svg]:tw-transition-[inline-start-inset]"
+    class="tw-relative tw-p-3 tw-block tw-rounded-md tw-bg-transparent tw-outline-none tw-font-bold tw-h-full !tw-text-alt2 hover:tw-text-alt2 hover:tw-no-underline focus-visible:tw-ring focus-visible:tw-ring-inset focus-visible:tw-ring-text-alt2 hover:tw-bg-hover-contrast"
     [ngClass]="{
       '!tw-h-[55px] [&_svg]:!tw-w-[26px] [&_svg]:tw-inset-y-[theme(spacing.3)]':
         !sideNavService.open,
@@ -19,6 +19,9 @@
     routerLinkActive
     [ariaCurrentWhenActive]="'page'"
   >
-    <bit-icon [icon]="sideNavService.open ? openIcon() : closedIcon()"></bit-icon>
+    <div class="tw-flex tw-justify-center tw-items-center" aria-hidden="true">
+      <i class="tw-w-6 tw-text-alt2 bwi bwi-lg {{ closedIcon() }}"></i>
+      <span class="tw-truncate">{{ label() }}</span>
+    </div>
   </a>
 </div>

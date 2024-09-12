@@ -6,19 +6,17 @@ import { Component, input } from "@angular/core";
 import { RouterLinkActive, RouterLink } from "@angular/router";
 
 import { Icon } from "../icon";
-import { BitIconComponent } from "../icon/icon.component";
-import { BitwardenShield } from "../icon/logos";
 
 import { SideNavService } from "./side-nav.service";
 
 @Component({
   selector: "bit-nav-logo",
   templateUrl: "./nav-logo.component.html",
-  imports: [CommonModule, RouterLinkActive, RouterLink, BitIconComponent],
+  imports: [CommonModule, RouterLinkActive, RouterLink],
 })
 export class NavLogoComponent {
   /** Icon that is displayed when the side nav is closed */
-  readonly closedIcon = input(BitwardenShield);
+  readonly closedIcon = input.required<string>();
 
   /** Icon that is displayed when the side nav is open */
   readonly openIcon = input.required<Icon>();

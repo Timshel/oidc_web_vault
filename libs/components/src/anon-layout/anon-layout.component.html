@@ -1,5 +1,5 @@
 <bit-landing-layout [hideBackgroundIllustration]="hideBackgroundIllustration()">
-  <bit-landing-header [hideLogo]="hideLogo()">
+  <bit-landing-header [hideLogo]="true">
     <ng-content select="[slot=header-actions]"></ng-content>
   </bit-landing-header>
 
@@ -28,7 +28,6 @@
       }
 
       @if (!hideYearAndVersion) {
-        <div bitTypography="body2">&copy; {{ year }} Bitwarden Inc.</div>
         <div bitTypography="body2">{{ version }}</div>
       }
     </bit-landing-footer>

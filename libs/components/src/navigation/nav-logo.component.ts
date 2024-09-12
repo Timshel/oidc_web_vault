@@ -17,7 +17,7 @@ import { SideNavService } from "./side-nav.service";
 })
 export class NavLogoComponent {
   /** Icon that is displayed when the side nav is closed */
-  @Input() closedIcon = "bwi-shield";
+  @Input({ required: true }) closedIcon: string;
 
   /** Icon that is displayed when the side nav is open */
   @Input({ required: true }) openIcon: Icon;

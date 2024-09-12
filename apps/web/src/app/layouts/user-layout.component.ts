@@ -3,7 +3,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { Observable, switchMap } from "rxjs";
+import { Observable, of, switchMap } from "rxjs";
 
 import { JslibModule } from "@bitwarden/angular/jslib.module";
 import { AccountService } from "@bitwarden/common/auth/abstractions/account.service";
@@ -51,5 +51,9 @@ export class UserLayoutComponent implements OnInit {
   async ngOnInit() {
     document.body.classList.remove("layout_frontend");
     await this.syncService.fullSync(false);
+
+    this.hasFamilySponsorshipAvailable$ = of(false); // disable family Sponsorships
+    this.showSponsoredFamilies$ = of(false); // disable family Sponsorships
+    this.showSubscription$ = of(false); // always hide subscriptions
   }
 }

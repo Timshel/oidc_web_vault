@@ -52,39 +52,10 @@ export class OrgBillingHistoryViewComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    const openInvoicesPromise = this.organizationBillingApiService.getBillingInvoices(
-      this.organizationId,
-      "open",
-      this.openInvoices.length > 0 ? this.openInvoices[this.openInvoices.length - 1].id : null,
-    );
-
-    const paidInvoicesPromise = this.organizationBillingApiService.getBillingInvoices(
-      this.organizationId,
-      "paid",
-      this.paidInvoices.length > 0 ? this.paidInvoices[this.paidInvoices.length - 1].id : null,
-    );
-
-    const transactionsPromise = this.organizationBillingApiService.getBillingTransactions(
-      this.organizationId,
-      this.transactions.length > 0
-        ? this.transactions[this.transactions.length - 1].createdDate
-        : null,
-    );
-
-    const openInvoices = await openInvoicesPromise;
-    const paidInvoices = await paidInvoicesPromise;
-    const transactions = await transactionsPromise;
-
-    const pageSize = 5;
-
-    this.openInvoices = [...this.openInvoices, ...openInvoices];
-    this.paidInvoices = [...this.paidInvoices, ...paidInvoices];
-    this.transactions = [...this.transactions, ...transactions];
-
-    this.hasAdditionalHistory =
-      openInvoices.length <= pageSize ||
-      paidInvoices.length <= pageSize ||
-      transactions.length <= pageSize;
+    this.openInvoices = [];
+    this.paidInvoices = [];
+    this.transactions = [];
+    this.hasAdditionalHistory = false;
 
     this.loading = false;
   }

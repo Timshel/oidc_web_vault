@@ -133,14 +133,17 @@ export class WebPlatformUtilsService implements PlatformUtilsService {
   }
 
   isDev(): boolean {
+    return false; // treat as production ready
     return process.env.NODE_ENV === "development";
   }
 
   isSelfHost(): boolean {
+    return true; // treat as self hosted
     return WebPlatformUtilsService.isSelfHost();
   }
 
   static isSelfHost(): boolean {
+    return true; // treat as self hosted
     return process.env.ENV.toString() === "selfhosted";
   }
 

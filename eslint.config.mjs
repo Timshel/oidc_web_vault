@@ -85,7 +85,6 @@ export default tseslint.config(
       "@bitwarden/platform/no-page-script-url-leakage": "error",
       "@bitwarden/platform/no-unawaited-using-return": "error",
       "@bitwarden/components/require-theme-colors-in-svg": "error",
-
       "@typescript-eslint/explicit-member-accessibility": ["error", { accessibility: "no-public" }],
       "@typescript-eslint/no-explicit-any": "off", // TODO: This should be re-enabled
       "@typescript-eslint/no-floating-promises": "error",

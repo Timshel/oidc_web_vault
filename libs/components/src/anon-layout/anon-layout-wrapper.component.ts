@@ -17,6 +17,9 @@ import {
 import { ANON_LAYOUT_DEFAULTS } from "./anon-layout-defaults";
 import { AnonLayoutWrapperDataService } from "./anon-layout-wrapper-data.service";
 import { AnonLayoutComponent, SecondaryContentLocationType } from "./anon-layout.component";
+
+import { BitwardenShield } from "../icons";
+
 export interface AnonLayoutWrapperData {
   /**
    * The optional title of the page.
@@ -263,7 +266,7 @@ export class AnonLayoutWrapperComponent implements OnInit {
   private resetPageData() {
     this.pageTitle = null;
     this.pageSubtitle = null;
-    this.pageIcon = null;
+    this.pageIcon = BitwardenShield;
     this.showReadonlyHostname = null;
     this.maxWidth = null;
     this.hideCardWrapper = null;

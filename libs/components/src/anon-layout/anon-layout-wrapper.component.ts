@@ -9,6 +9,8 @@ import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.servic
 import { Translation } from "../dialog";
 import { LandingContentMaxWidthType } from "../landing-layout";
 
+import { BitwardenShield } from "../icons";
+
 import { AnonLayoutWrapperDataService } from "./anon-layout-wrapper-data.service";
 import { AnonLayoutComponent } from "./anon-layout.component";
 export interface AnonLayoutWrapperData {
@@ -181,7 +183,7 @@ export class AnonLayoutWrapperComponent implements OnInit {
   private resetPageData() {
     this.pageTitle = null;
     this.pageSubtitle = null;
-    this.pageIcon = null;
+    this.pageIcon = BitwardenShield;
     this.showReadonlyHostname = null;
     this.maxWidth = null;
     this.hideCardWrapper = null;

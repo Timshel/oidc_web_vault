@@ -38,7 +38,7 @@ import { PasswordGenerationServiceAbstraction } from "@bitwarden/generator-legac
 // eslint-disable-next-line rxjs-angular/prefer-takeuntil
 export class SsoComponent extends BaseSsoComponent implements OnInit {
   protected formGroup = new FormGroup({
-    identifier: new FormControl(null, [Validators.required]),
+    identifier: new FormControl("Vaultwarden", [Validators.required]),
   });
 
   get identifierFormControl() {

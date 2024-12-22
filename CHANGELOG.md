@@ -1,5 +1,9 @@
 # Changelog
 
+## v2024.12.1-2
+
+- Add css class to easily hide the password field
+
 ## v2024.12.1-1
 
 - Released based on `web-v2024.12.1`

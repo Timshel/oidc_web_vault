@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, inject, NgZone, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { firstValueFrom, Subject, take, takeUntil } from "rxjs";
@@ -28,6 +28,7 @@ import { MessagingService } from "@bitwarden/common/platform/abstractions/messag
 import { PlatformUtilsService } from "@bitwarden/common/platform/abstractions/platform-utils.service";
 import { ValidationService } from "@bitwarden/common/platform/abstractions/validation.service";
 import { Utils } from "@bitwarden/common/platform/misc/utils";
+import { DefaultServerSettingsService } from "@bitwarden/common/platform/services/default-server-settings.service";
 import { PasswordStrengthServiceAbstraction } from "@bitwarden/common/tools/password-strength";
 import { UserId } from "@bitwarden/common/types/guid";
 import {
@@ -69,6 +70,11 @@ export enum LoginUiState {
   ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  serverSettingsService = inject(DefaultServerSettingsService);
+
+  protected isSSOEnabled$ = this.serverSettingsService.isSSOEnabled$;
+  protected isSSOOnly$ = this.serverSettingsService.isSSOOnly$;
+
   @ViewChild("masterPasswordInputRef") masterPasswordInputRef: ElementRef | undefined;
 
   private destroy$ = new Subject<void>();
@@ -428,6 +434,22 @@ export class LoginComponent implements OnInit, OnDestroy {
     await this.loginEmailService.setLoginEmail(email);
     this.loginEmailService.setRememberEmail(this.formGroup.value.rememberEmail ?? false);
     await this.loginEmailService.saveEmailSettings();
+  }
+
+  /**
+   * Primary button clicked (or enter key pressed).
+   * Adds the login url to the browser's history so that the back button can be used to go back to the email entry state.
+   * Needs to be separate from the continue() function because that can be triggered by the browser's forward button.
+   */
+  protected async primaryPressed() {
+    // Add a new entry to the browser's history so that there is a history entry to go back to
+    history.pushState({}, "", window.location.href);
+
+    if (await this.serverSettingsService.isSSOEnabled$) {
+      await this.handleSsoClick();
+    } else {
+      await this.continue();
+    }
   }
 
   /**

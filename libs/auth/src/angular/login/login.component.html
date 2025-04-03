@@ -39,20 +39,6 @@
 
       <div class="tw-text-center">{{ "or" | i18n }}</div>
 
-      <!-- Link to Login with Passkey page -->
-      <ng-container *ngIf="isLoginWithPasskeySupported()">
-        <a
-          bitButton
-          block
-          linkType="primary"
-          routerLink="/login-with-passkey"
-          (mousedown)="$event.preventDefault()"
-        >
-          <i class="bwi bwi-passkey tw-mr-1"></i>
-          {{ "logInWithPasskey" | i18n }}
-        </a>
-      </ng-container>
-
       <!-- Button to Login with SSO -->
       <button type="button" bitButton block buttonType="secondary" (click)="handleSsoClick()">
         <i class="bwi bwi-provider tw-mr-1"></i>

@@ -271,6 +271,7 @@ export class SetInitialPasswordComponent implements OnInit {
           this.orgSsoIdentifier,
         );
         this.orgId = autoEnrollStatus.id;
+        this.orgSsoIdentifier = autoEnrollStatus.identifier;
         this.resetPasswordAutoEnroll = autoEnrollStatus.resetPasswordEnabled;
         this.masterPasswordPolicyOptions =
           await this.policyApiService.getMasterPasswordPolicyOptsForOrgUser(this.orgId);

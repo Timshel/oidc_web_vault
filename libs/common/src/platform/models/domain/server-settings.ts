@@ -3,6 +3,8 @@ export class ServerSettings {
   suppressOnboardingInterstitials: boolean;
   disableEmailVerification: boolean;
   disableOpenInviteLinkEmailVerification: boolean;
+  ssoEnabled: boolean;
+  ssoOnly: boolean;
 
   constructor(data?: Partial<ServerSettings>) {
     this.disableUserRegistration = data?.disableUserRegistration ?? false;
@@ -10,5 +12,7 @@ export class ServerSettings {
     this.disableEmailVerification = data?.disableEmailVerification ?? false;
     this.disableOpenInviteLinkEmailVerification =
       data?.disableOpenInviteLinkEmailVerification ?? false;
+    this.ssoEnabled = data?.ssoEnabled ?? true;
+    this.ssoOnly = data?.ssoOnly ?? false;
   }
 }

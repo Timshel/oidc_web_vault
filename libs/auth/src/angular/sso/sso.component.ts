@@ -642,5 +642,8 @@ export class SsoComponent implements OnInit {
     if (storedIdentifier != null) {
       this.identifierFormControl.setValue(storedIdentifier);
     }
+
+    // Lastly, set the dummy value
+    this.identifierFormControl.setValue("00000000-01DC-01DC-01DC-000000000000");
   }
 }

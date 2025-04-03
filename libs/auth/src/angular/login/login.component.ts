@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  inject,
   NgZone,
   OnDestroy,
   OnInit,
@@ -41,6 +42,7 @@ import { MessagingService } from "@bitwarden/common/platform/abstractions/messag
 import { PlatformUtilsService } from "@bitwarden/common/platform/abstractions/platform-utils.service";
 import { ValidationService } from "@bitwarden/common/platform/abstractions/validation.service";
 import { Utils } from "@bitwarden/common/platform/misc/utils";
+import { DefaultServerSettingsService } from "@bitwarden/common/platform/services/default-server-settings.service";
 import { PasswordStrengthServiceAbstraction } from "@bitwarden/common/tools/password-strength";
 import { UserId } from "@bitwarden/common/types/guid";
 // This import has been flagged as unallowed for this class. It may be involved in a circular dependency loop.
@@ -87,6 +89,11 @@ export enum LoginUiState {
   ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  serverSettingsService = inject(DefaultServerSettingsService);
+
+  protected isSSOEnabled$ = this.serverSettingsService.isSSOEnabled$;
+  protected isSSOOnly$ = this.serverSettingsService.isSSOOnly$;
+
   // FIXME(https://bitwarden.atlassian.net/browse/CL-903): Migrate to Signals
   // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild("masterPasswordInputRef") masterPasswordInputRef: ElementRef | undefined;

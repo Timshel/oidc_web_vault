@@ -37,6 +37,10 @@ export class ServerConfigResponse extends BaseResponse {
 export class ServerSettingsResponse extends BaseResponse {
   disableUserRegistration: boolean = false;
   suppressOnboardingInterstitials: boolean = false;
+  ssoEnabled: boolean;
+  ssoOnly: boolean;
+  ssoOrgExternalId: boolean;
+  ssoOrgGroupExternalId: boolean;
 
   constructor(response: any) {
     super(response);
@@ -48,6 +52,11 @@ export class ServerSettingsResponse extends BaseResponse {
     this.disableUserRegistration = this.getResponseProperty("DisableUserRegistration") ?? false;
     this.suppressOnboardingInterstitials =
       this.getResponseProperty("SuppressOnboardingInterstitials") ?? false;
+
+    this.ssoEnabled = this.getResponseProperty("ssoEnabled");
+    this.ssoOnly = this.getResponseProperty("ssoOnly");
+    this.ssoOrgExternalId = this.getResponseProperty("ssoOrgExternalId");
+    this.ssoOrgGroupExternalId = this.getResponseProperty("ssoOrgGroupExternalId");
   }
 }
 

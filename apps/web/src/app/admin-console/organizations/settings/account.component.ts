@@ -71,6 +71,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       { value: "", disabled: true },
       { validators: [Validators.required, Validators.email, Validators.maxLength(256)] },
     ),
+    externalId: this.formBuilder.control({ value: "", disabled: true }),
   });
 
   protected collectionManagementFormGroup = this.formBuilder.group({
@@ -103,6 +104,10 @@ export class AccountComponent implements OnInit, OnDestroy {
   ]);
 
   private destroy$ = new Subject<void>();
+
+  protected isSSOOrgExternalId$ = this.configService.serverConfig$.pipe(
+    map((serverConfig) => serverConfig.settings.ssoOrgExternalId),
+  );
 
   constructor(
     private i18nService: I18nService,
@@ -155,6 +160,7 @@ export class AccountComponent implements OnInit, OnDestroy {
           if (this.canEditSubscription) {
             this.formGroup.get("billingEmail")!.enable();
           }
+          this.formGroup.get("externalId")!.enable();
         }
 
         // Org Response
@@ -167,6 +173,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.formGroup.patchValue({
           orgName: this.org.name,
           billingEmail: this.org.billingEmail,
+          externalId: this.org.externalId,
         });
 
         this.collectionManagementFormGroup.patchValue({
@@ -196,6 +203,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     const request: OrganizationUpdateRequest = {
       name: this.formGroup.value.orgName ?? undefined,
       billingEmail: this.formGroup.value.billingEmail ?? undefined,
+      externalId: this.formGroup.value.externalId ?? undefined,
     };
 
     // Backfill pub/priv key if necessary

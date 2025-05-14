@@ -83,6 +83,15 @@ export class GroupAddDialogComponent {
     map((organization) => organization?.canAssignAccessToAnyCollection ?? false),
   );
 
+  protected isSSOOrgGroupExternalId$ = this.configService.serverConfig$.pipe(
+    map((serverConfig) => {
+      if (serverConfig.settings.ssoOrgGroupExternalId) {
+        this.groupForm.get("externalId")?.enable();
+      }
+      return serverConfig.settings.ssoOrgGroupExternalId;
+    }),
+  );
+
   readonly submit = async (): Promise<void> => {
     this.groupForm.markAllAsTouched();
 

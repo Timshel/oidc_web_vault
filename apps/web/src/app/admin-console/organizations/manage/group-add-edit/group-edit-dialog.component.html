@@ -12,27 +12,16 @@
             <input bitInput appAutofocus type="text" formControlName="name" />
             <bit-hint>{{ "characterMaximum" | i18n: 100 }}</bit-hint>
           </bit-form-field>
-          @if (externalId(); as externalIdValue) {
+          @if (isSSOOrgGroupExternalId$ | async) {
             <bit-form-field>
               <bit-label>{{ "externalId" | i18n }}</bit-label>
               <input
                 id="edit-group_input_external-id"
                 bitInput
                 type="text"
-                readonly
                 formControlName="externalId"
               />
-              <button
-                id="edit-group_button_copy-external-id"
-                type="button"
-                bitSuffix
-                bitIconButton="bwi-clone"
-                showToast
-                [appCopyClick]="externalIdValue"
-                [valueLabel]="'externalId' | i18n"
-                [label]="'copyExternalId' | i18n"
-              ></button>
-              <bit-hint>{{ "externalIdDesc" | i18n }}</bit-hint>
+              <bit-hint>External SSO provider group name</bit-hint>
             </bit-form-field>
           }
         </bit-tab>

@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, effect, inject, signal } from "@ang
 import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { map } from "rxjs";
 
+import { ConfigService } from "@bitwarden/common/platform/abstractions/config/config.service";
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import {
-  CopyClickDirective,
   DIALOG_DATA,
   DialogConfig,
   DialogRef,
@@ -53,12 +53,13 @@ function mapToAccessSelections(
 @Component({
   selector: "app-group-edit-dialog",
   templateUrl: "group-edit-dialog.component.html",
-  imports: [SharedModule, AccessSelectorModule, Vfo1I18nPipe, CopyClickDirective],
+  imports: [SharedModule, AccessSelectorModule, Vfo1I18nPipe],
   providers: [GroupAddEditService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupEditDialogComponent {
   private readonly params = inject<GroupEditDialogParams>(DIALOG_DATA);
+  private readonly configService = inject(ConfigService);
   private readonly dialogRef = inject<DialogRef<GroupAddEditDialogResultType>>(DialogRef);
   private readonly groupAddEditService = inject(GroupAddEditService);
   private readonly i18nService = inject(I18nService);
@@ -116,6 +117,15 @@ export class GroupEditDialogComponent {
     initialValue: [] as AccessItemView[],
   });
 
+  protected isSSOOrgGroupExternalId$ = this.configService.serverConfig$.pipe(
+    map((serverConfig) => {
+      if (serverConfig.settings.ssoOrgGroupExternalId) {
+        this.groupForm.get("externalId")?.enable();
+      }
+      return serverConfig.settings.ssoOrgGroupExternalId;
+    }),
+  );
+
   constructor() {
     effect(() => {
       const group = this.group();
@@ -130,13 +140,6 @@ export class GroupEditDialogComponent {
       });
     });
   }
-
-  /** The external ID, shown read-only when the group was provisioned externally. */
-  protected readonly externalId = toSignal(
-    this.groupForm.controls.externalId.valueChanges.pipe(map((value) => value || undefined)),
-    { initialValue: this.groupForm.controls.externalId.value || undefined },
-  );
-
   readonly submit = async (): Promise<void> => {
     this.groupForm.markAllAsTouched();
 

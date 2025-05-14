@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from "@angular/core";
 import { map } from "rxjs";
 
+import { ConfigService } from "@bitwarden/common/platform/abstractions/config/config.service";
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import {
   DIALOG_DATA,
@@ -30,6 +31,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupAddDialogComponent {
+  private readonly configService = inject(ConfigService);
+
   private readonly params = inject<GroupAddDialogParams>(DIALOG_DATA);
   private readonly dialogRef = inject<DialogRef<GroupAddEditDialogResultType>>(DialogRef);
   private readonly groupAddEditService = inject(GroupAddEditService);
@@ -70,6 +73,15 @@ export class GroupAddDialogComponent {
   );
   protected readonly canAssignAccessToAnyCollection$ = this.organization$.pipe(
     map((organization) => organization?.canAssignAccessToAnyCollection ?? false),
+  );
+
+  protected readonly isSSOOrgGroupExternalId$ = this.configService.serverConfig$.pipe(
+    map((serverConfig) => {
+      if (serverConfig.settings.ssoOrgGroupExternalId) {
+        this.groupForm.get("externalId")?.enable();
+      }
+      return serverConfig.settings.ssoOrgGroupExternalId;
+    }),
   );
 
   readonly submit = async (): Promise<void> => {

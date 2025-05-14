@@ -19,6 +19,11 @@
           <bit-label>{{ "email" | i18n }}</bit-label>
           <input bitInput id="billingEmail" formControlName="billingEmail" type="email" />
         </bit-form-field>
+        <bit-form-field *ngIf="isSSOOrgExternalId$ | async">
+          <bit-label>{{ "externalId" | i18n }}</bit-label>
+          <input bitInput id="externalId" formControlName="externalId" type="text" />
+          <bit-hint>External SSO provider name</bit-hint>
+        </bit-form-field>
       </div>
       <div>
         <bit-avatar [text]="org.name" [id]="org.id" size="large"></bit-avatar>

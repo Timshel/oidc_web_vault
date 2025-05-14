@@ -23,10 +23,17 @@
             <input bitInput appAutofocus type="text" formControlName="name" />
             <bit-hint>{{ "characterMaximum" | i18n: 100 }}</bit-hint>
           </bit-form-field>
-          <bit-form-field *ngIf="isExternalIdVisible">
+          <bit-form-field
+            *ngIf="isExternalIdVisible || (isSSOOrgGroupExternalId$ | async)"
+          >
             <bit-label>{{ "externalId" | i18n }}</bit-label>
             <input bitInput type="text" formControlName="externalId" />
-            <bit-hint>{{ "externalIdDesc" | i18n }}</bit-hint>
+            <bit-hint *ngIf="!(isSSOOrgGroupExternalId$ | async)">{{
+              "externalIdDesc" | i18n
+            }}</bit-hint>
+            <bit-hint *ngIf="isSSOOrgGroupExternalId$ | async"
+              >External SSO provider group name</bit-hint
+            >
           </bit-form-field>
         </bit-tab>
 

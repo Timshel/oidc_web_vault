@@ -97,6 +97,7 @@ export class InternalGroupApiService extends GroupApiService {
     const request = new GroupRequest();
     request.name = group.name;
     request.users = group.members;
+    request.externalId = group.externalId;
     request.collections = group.collections.map(
       (c) => new SelectionReadOnlyRequest(c.id, c.readOnly, c.hidePasswords, c.manage),
     );

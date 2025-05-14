@@ -8,6 +8,7 @@ import {
   firstValueFrom,
   from,
   lastValueFrom,
+  map,
   of,
   Subject,
   switchMap,
@@ -25,6 +26,7 @@ import { OrganizationUpdateRequest } from "@bitwarden/common/admin-console/model
 import { OrganizationResponse } from "@bitwarden/common/admin-console/models/response/organization.response";
 import { AccountService } from "@bitwarden/common/auth/abstractions/account.service";
 import { getUserId } from "@bitwarden/common/auth/services/account.service";
+import { ConfigService } from "@bitwarden/common/platform/abstractions/config/config.service";
 import { I18nService } from "@bitwarden/common/platform/abstractions/i18n.service";
 import { PlatformUtilsService } from "@bitwarden/common/platform/abstractions/platform-utils.service";
 import { Utils } from "@bitwarden/common/platform/misc/utils";
@@ -62,6 +64,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       { value: "", disabled: true },
       { validators: [Validators.required, Validators.email, Validators.maxLength(256)] },
     ),
+    externalId: this.formBuilder.control({ value: "", disabled: true }),
   });
 
   protected collectionManagementFormGroup = this.formBuilder.group({
@@ -79,6 +82,10 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
+  protected isSSOOrgExternalId$ = this.configService.serverConfig$.pipe(
+    map((serverConfig) => serverConfig.settings.ssoOrgExternalId),
+  );
+
   constructor(
     private i18nService: I18nService,
     private route: ActivatedRoute,
@@ -91,6 +98,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private toastService: ToastService,
+    private configService: ConfigService,
   ) {}
 
   async ngOnInit() {
@@ -127,6 +135,7 @@ export class AccountComponent implements OnInit, OnDestroy {
           if (this.canEditSubscription) {
             this.formGroup.get("billingEmail").enable();
           }
+          this.formGroup.get("externalId").enable();
         }
 
         // Org Response
@@ -139,6 +148,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.formGroup.patchValue({
           orgName: this.org.name,
           billingEmail: this.org.billingEmail,
+          externalId: this.org.externalId,
         });
 
         this.collectionManagementFormGroup.patchValue({
@@ -176,6 +186,9 @@ export class AccountComponent implements OnInit, OnDestroy {
     request.billingEmail = this.formGroup.get("billingEmail").disabled
       ? this.org.billingEmail
       : this.formGroup.value.billingEmail;
+    request.externalId = this.formGroup.get("externalId").disabled
+      ? this.org.externalId
+      : this.formGroup.value.externalId;
 
     // Backfill pub/priv key if necessary
     if (!this.org.hasPublicAndPrivateKeys) {

@@ -235,6 +235,15 @@ export class GroupAddEditComponent implements OnInit, OnDestroy {
     this.groupDetails$,
   ]).pipe(map(([allowAdminAccess, groupDetails]) => !allowAdminAccess && groupDetails != null));
 
+  protected isSSOOrgGroupExternalId$ = this.configService.serverConfig$.pipe(
+    map((serverConfig) => {
+      if (serverConfig.settings.ssoOrgGroupExternalId) {
+        this.groupForm.get("externalId")?.enable();
+      }
+      return serverConfig.settings.ssoOrgGroupExternalId;
+    }),
+  );
+
   constructor(
     @Inject(DIALOG_DATA) private params: GroupAddEditDialogParams,
     private dialogRef: DialogRef<GroupAddEditDialogResultType>,

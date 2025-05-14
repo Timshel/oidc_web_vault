@@ -16,7 +16,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { catchError, firstValueFrom, merge, of, Subject, takeUntil } from "rxjs";
-import { debounceTime, filter, switchMap } from "rxjs/operators";
+import { filter, switchMap } from "rxjs/operators";
 
 import { ApiService } from "@bitwarden/common/abstractions/api.service";
 import { OrganizationApiServiceAbstraction } from "@bitwarden/common/admin-console/abstractions/organization/organization-api.service.abstraction";
@@ -443,17 +443,8 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
     billingAddress: EnterBillingAddressComponent.getFormGroup(),
   });
 
-  // Emits once the form has been idle for a second. Each emission is a new object, but the `equal`
-  // comparator on `previewParams` suppresses a restart when the request is unchanged. The one
-  // exception is a failed preview, which the effect in the constructor reloads on every emission.
-  private readonly debouncedFormChange = toSignal(
-    merge(
-      this.formGroup.valueChanges,
-      this.billingFormGroup.valueChanges,
-      this.secretsManagerForm.valueChanges,
-      this.eligibleDiscounts$,
-    ).pipe(debounceTime(1000)),
-  );
+  // No billing in Vaultwarden
+  private readonly debouncedFormChange = (): any => undefined;
 
   // Undefined (no preview) for Free, Teams Starter, and an invalid billing address. Form state is
   // read untracked so only the debounced change, not each keystroke, restarts the preview.
@@ -612,6 +603,7 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
 
     this.loading = false;
 
+    /* no secret manager in vaultwarden
     if (this.enableSecretsManagerByDefault() && this.selectedSecretsManagerPlan()) {
       this.secretsManagerSubscription.patchValue({
         enabled: true,
@@ -619,6 +611,7 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
         additionalServiceAccounts: 0,
       });
     }
+    end of sales tax */
   }
 
   ngOnDestroy() {

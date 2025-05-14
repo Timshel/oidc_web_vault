@@ -21,26 +21,20 @@
           <bit-hint>{{ "characterMaximum" | i18n: 100 }}</bit-hint>
         </bit-form-field>
         @if (externalId(); as externalIdValue) {
-          <bit-form-field>
+          <bit-form-field *ngIf="isSSOOrgGroupExternalId$ | async">
             <bit-label>{{ "externalId" | i18n }}</bit-label>
             <input
               id="edit-group_input_external-id"
               bitInput
               type="text"
-              readonly
               formControlName="externalId"
             />
-            <button
-              id="edit-group_button_copy-external-id"
-              type="button"
-              bitSuffix
-              bitIconButton="bwi-clone"
-              showToast
-              [appCopyClick]="externalIdValue"
-              [valueLabel]="'externalId' | i18n"
-              [label]="'copyExternalId' | i18n"
-            ></button>
-            <bit-hint>{{ "externalIdDesc" | i18n }}</bit-hint>
+            <bit-hint *ngIf="!(isSSOOrgGroupExternalId$ | async)">{{
+              "externalIdDesc" | i18n
+            }}</bit-hint>
+            <bit-hint *ngIf="isSSOOrgGroupExternalId$ | async">
+              External SSO provider group name
+            </bit-hint>
           </bit-form-field>
         }
       </bit-tab>

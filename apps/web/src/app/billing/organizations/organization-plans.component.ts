@@ -14,17 +14,15 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import {
   catchError,
-  combineLatest,
   defer,
   firstValueFrom,
   from,
-  merge,
   Observable,
   of,
   Subject,
   takeUntil,
 } from "rxjs";
-import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from "rxjs/operators";
+import { distinctUntilChanged, filter, map, switchMap, tap } from "rxjs/operators";
 
 import { ApiService } from "@bitwarden/common/abstractions/api.service";
 import { OrganizationApiServiceAbstraction } from "@bitwarden/common/admin-console/abstractions/organization/organization-api.service.abstraction";
@@ -641,6 +639,7 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
 
     this.loading = false;
 
+    /* no sales tax in vaultwarden
     combineLatest([
       merge(
         this.formGroup.valueChanges,
@@ -671,6 +670,7 @@ export class OrganizationPlansComponent implements OnInit, OnDestroy {
         additionalServiceAccounts: 0,
       });
     }
+    end of sales tax */
   }
 
   ngOnDestroy() {

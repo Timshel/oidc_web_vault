@@ -7,6 +7,7 @@ import { BaseResponse } from "../../../models/response/base.response";
 export class OrganizationResponse extends BaseResponse {
   id: string;
   name: string;
+  externalId?: string;
   businessName: string;
   businessAddress1: string;
   businessAddress2: string;
@@ -51,6 +52,7 @@ export class OrganizationResponse extends BaseResponse {
     this.businessCountry = this.getResponseProperty("BusinessCountry");
     this.businessTaxNumber = this.getResponseProperty("BusinessTaxNumber");
     this.billingEmail = this.getResponseProperty("BillingEmail");
+    this.externalId = this.getResponseProperty("externalId");
 
     const plan = this.getResponseProperty("Plan");
     this.plan = plan == null ? null : new PlanResponse(plan);

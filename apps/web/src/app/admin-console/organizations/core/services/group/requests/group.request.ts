@@ -4,6 +4,7 @@ import { SelectionReadOnlyRequest } from "@bitwarden/common/admin-console/models
 
 export class GroupRequest {
   name: string;
+  externalId?: string;
   collections: SelectionReadOnlyRequest[] = [];
   users: string[] = [];
 }

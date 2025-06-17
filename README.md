@@ -20,7 +20,7 @@ This generate two different versions :
 
 ## Building the web-vault
 
-To build the web-vault you need node and npm installed.
+To build the web-vault you need node `20` cf [.nvmrc](.nvmrc) and npm installed.
 
 ### Using node and npm
 

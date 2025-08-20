@@ -115,10 +115,6 @@ export class OrganizationLayoutComponent {
     ),
   );
 
-  protected readonly integrationPageEnabled$: Observable<boolean> = this.organization$.pipe(
-    map((org) => org.canAccessIntegrations),
-  );
-
   protected readonly showSponsoredFamiliesDropdown$: Observable<boolean> =
     this.freeFamiliesPolicyService.showSponsoredFamiliesDropdown$(this.organization$);
 

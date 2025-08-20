@@ -60,8 +60,6 @@ export class OrganizationLayoutComponent implements OnInit {
 
   protected orgFilter = (org: Organization) => canAccessOrgAdmin(org);
 
-  protected integrationPageEnabled$: Observable<boolean>;
-
   organization$: Observable<Organization>;
   canAccessExport$: Observable<boolean>;
   showPaymentAndHistory$: Observable<boolean>;
@@ -131,8 +129,6 @@ export class OrganizationLayoutComponent implements OnInit {
           provider.providerStatus !== ProviderStatusType.Billable,
       ),
     );
-
-    this.integrationPageEnabled$ = this.organization$.pipe(map((org) => org.canAccessIntegrations));
 
     this.subscriber$ = this.organization$.pipe(
       map((organization) => ({

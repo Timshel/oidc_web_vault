@@ -9,9 +9,10 @@
     <app-organization-free-trial-warning
       [organization]="organization"
       (clicked)="navigateToPaymentMethod()"
+      *ngIf="false"
     >
     </app-organization-free-trial-warning>
-    <app-organization-reseller-renewal-warning [organization]="organization">
+    <app-organization-reseller-renewal-warning [organization]="organization" *ngIf="false">
     </app-organization-reseller-renewal-warning>
   }
 

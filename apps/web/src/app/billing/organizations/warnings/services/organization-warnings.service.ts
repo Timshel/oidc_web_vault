@@ -1,18 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import {
-  BehaviorSubject,
-  filter,
-  from,
-  lastValueFrom,
-  map,
-  merge,
-  Observable,
-  Subject,
-  switchMap,
-  tap,
-} from "rxjs";
-import { take } from "rxjs/operators";
+import { BehaviorSubject, Observable, Subject, from } from "rxjs";
 
 import { OrganizationApiServiceAbstraction } from "@bitwarden/common/admin-console/abstractions/organization/organization-api.service.abstraction";
 import { Organization } from "@bitwarden/common/admin-console/models/domain/organization";
@@ -23,22 +11,10 @@ import { OrganizationBillingClient } from "@bitwarden/web-vault/app/billing/clie
 import { TaxIdWarningType } from "@bitwarden/web-vault/app/billing/warnings/types";
 
 import {
-  TRIAL_PAYMENT_METHOD_DIALOG_RESULT_TYPE,
-  TrialPaymentDialogComponent,
-} from "../../../shared/trial-payment-dialog/trial-payment-dialog.component";
-import { openChangePlanDialog } from "../../change-plan-dialog.component";
-import {
   OrganizationFreeTrialWarning,
   OrganizationResellerRenewalWarning,
   OrganizationWarningsResponse,
 } from "../types";
-
-const format = (date: Date) =>
-  date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-  });
 
 @Injectable()
 export class OrganizationWarningsService {
@@ -62,7 +38,9 @@ export class OrganizationWarningsService {
   getFreeTrialWarning$ = (
     organization: Organization,
     includeOrganizationNameInMessaging = false,
-  ): Observable<OrganizationFreeTrialWarning | null> =>
+  ): Observable<OrganizationFreeTrialWarning | null> => {
+    return null;
+  }; /* disable warning in Vaultwarden
     merge(
       this.getWarning$(organization, (response) => response.freeTrial),
       this.refreshFreeTrialWarningTrigger.pipe(
@@ -105,11 +83,13 @@ export class OrganizationWarningsService {
             : this.i18nService.t("freeTrialEndingTodayWithoutOrgName"),
         };
       }),
-    );
+    ); end of disable warning*/
 
   getResellerRenewalWarning$ = (
     organization: Organization,
-  ): Observable<OrganizationResellerRenewalWarning | null> =>
+  ): Observable<OrganizationResellerRenewalWarning | null> => {
+    return null;
+  }; /* disable warning in Vaultwarden
     this.getWarning$(organization, (response) => response.resellerRenewal).pipe(
       map((warning) => {
         if (!warning) {
@@ -149,9 +129,11 @@ export class OrganizationWarningsService {
           }
         }
       }),
-    );
+    ); end of disable warning */
 
-  getTaxIdWarning$ = (organization: Organization): Observable<TaxIdWarningType | null> =>
+  getTaxIdWarning$ = (organization: Organization): Observable<TaxIdWarningType | null> => {
+    return null;
+  }; /* disable warning in Vaultwarden
     merge(
       this.getWarning$(organization, (response) => response.taxId),
       this.refreshTaxIdWarningTrigger.pipe(
@@ -161,7 +143,7 @@ export class OrganizationWarningsService {
           ),
         ),
       ),
-    ).pipe(map((warning) => (warning ? warning.type : null)));
+    ).pipe(map((warning) => (warning ? warning.type : null))); end of disable warning */
 
   refreshFreeTrialWarning = () => this.refreshFreeTrialWarningTrigger.next();
 
@@ -169,7 +151,9 @@ export class OrganizationWarningsService {
 
   refreshTaxIdWarning = () => this.refreshTaxIdWarningTrigger.next();
 
-  showInactiveSubscriptionDialog$ = (organization: Organization): Observable<void> =>
+  showInactiveSubscriptionDialog$ = (organization: Organization): Observable<void> => {
+    return;
+  }; /* disable warning in Vaultwarden
     merge(
       this.getWarning$(organization, (response) => response.inactiveSubscription),
       this.refreshInactiveSubscriptionWarningTrigger.pipe(
@@ -179,6 +163,7 @@ export class OrganizationWarningsService {
       ),
     ).pipe(
       switchMap(async (warning) => {
+        return;
         if (!warning) {
           return;
         }
@@ -239,9 +224,11 @@ export class OrganizationWarningsService {
           }
         }
       }),
-    );
+    ); end of disable warning */
 
-  showSubscribeBeforeFreeTrialEndsDialog$ = (organization: Organization): Observable<void> =>
+  showSubscribeBeforeFreeTrialEndsDialog$ = (organization: Organization): Observable<void> => {
+    return;
+  }; /* disable warning in Vaultwarden
     this.getWarning$(organization, (response) => response.freeTrial).pipe(
       filter((warning) => warning !== null),
       switchMap(async () => {
@@ -261,7 +248,7 @@ export class OrganizationWarningsService {
           this.refreshFreeTrialWarningTrigger.next();
         }
       }),
-    );
+    ); end of disable warning */
 
   private readThroughWarnings$ = (
     organization: Organization,
@@ -281,7 +268,9 @@ export class OrganizationWarningsService {
     organization: Organization,
     extract: (response: OrganizationWarningsResponse) => T | null | undefined,
     bypassCache: boolean = false,
-  ): Observable<T | null> =>
+  ): Observable<T | null> => {
+    return null;
+  }; /* disable warnings in vaultwarden
     this.readThroughWarnings$(organization, bypassCache).pipe(
       map((response) => {
         const value = extract(response);
@@ -289,4 +278,5 @@ export class OrganizationWarningsService {
       }),
       take(1),
     );
+    disable warning */
 }

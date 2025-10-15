@@ -1,12 +1,10 @@
 import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import {
   BehaviorSubject,
   combineLatest,
   firstValueFrom,
   lastValueFrom,
-  merge,
   Observable,
   of,
   Subject,
@@ -413,7 +411,7 @@ export class VaultComponent implements OnInit, OnDestroy {
       shareReplay({ refCount: true, bufferSize: 1 }),
     );
 
-    // Billing Warnings
+    /*/ Billing Warnings
     this.organization$
       .pipe(
         switchMap((organization) =>
@@ -425,7 +423,7 @@ export class VaultComponent implements OnInit, OnDestroy {
         takeUntilDestroyed(),
       )
       .subscribe();
-    // End Billing Warnings
+    // End Billing Warnings */
 
     this.editableCollections$ = combineLatest([
       this.allCollectionsWithoutUnassigned$,

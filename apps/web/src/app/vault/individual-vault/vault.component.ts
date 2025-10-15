@@ -546,6 +546,7 @@ export class VaultComponent<C extends CipherViewLike> implements OnInit, OnDestr
         });
       });
 
+    /*
     this.organizations$
       .pipe(
         filter((organizations) => organizations.length === 1),
@@ -556,6 +557,7 @@ export class VaultComponent<C extends CipherViewLike> implements OnInit, OnDestr
         takeUntil(this.destroy$),
       )
       .subscribe();
+      */
 
     firstSetup$
       .pipe(

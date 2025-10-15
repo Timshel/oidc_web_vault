@@ -45,6 +45,7 @@ export class OrganizationFreeTrialWarningComponent implements OnInit {
   constructor(private organizationWarningsService: OrganizationWarningsService) {}
 
   ngOnInit() {
+    return; // disable warnings in vaultwarden
     this.warning$ = this.organizationWarningsService.getFreeTrialWarning$(
       this.organization,
       this.includeOrganizationNameInMessaging,

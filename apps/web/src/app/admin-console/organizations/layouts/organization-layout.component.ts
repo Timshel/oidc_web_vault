@@ -134,14 +134,12 @@ export class OrganizationLayoutComponent implements OnInit {
       })),
     );
 
-    /* disable warnings in Vaultwarden
     this.getTaxIdWarning$ = () =>
       this.organization$.pipe(
         switchMap((organization) =>
           this.organizationWarningsService.getTaxIdWarning$(organization),
         ),
       );
-    end of disable warning */
   }
 
   canShowVaultTab(organization: Organization): boolean {

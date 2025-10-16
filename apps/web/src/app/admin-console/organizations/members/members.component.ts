@@ -10,6 +10,7 @@ import {
   from,
   lastValueFrom,
   map,
+  merge,
   Observable,
   shareReplay,
   switchMap,
@@ -241,7 +242,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
       )
       .subscribe();
 
-    /*
     organization$
       .pipe(
         switchMap((organization) =>
@@ -253,9 +253,7 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
         takeUntilDestroyed(),
       )
       .subscribe();
-      */
 
-    /*
     this.billingMetadata$ = combineLatest([this.refreshBillingMetadata$, organization$]).pipe(
       switchMap(([_, organization]) =>
         this.billingApiService.getOrganizationBillingMetadata(organization.id),
@@ -263,7 +261,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
       takeUntilDestroyed(),
       shareReplay({ bufferSize: 1, refCount: false }),
     );
-    */
 
     // Stripe is slow, so kick this off in the background but without blocking page load.
     // Anyone who needs it will still await the first emission.

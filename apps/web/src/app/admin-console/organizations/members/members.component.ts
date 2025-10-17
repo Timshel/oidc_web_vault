@@ -86,6 +86,7 @@ import {
   MemberDialogTab,
   openUserAddEditDialog,
 } from "./components/member-dialog";
+import { isFixedSeatPlan } from "./components/member-dialog/validators/org-seat-limit-reached.validator";
 import { DeleteManagedMemberWarningService } from "./services/delete-managed-member/delete-managed-member-warning.service";
 import { OrganizationUserService } from "./services/organization-user/organization-user.service";
 
@@ -592,7 +593,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
   }
 
   async invite(organization: Organization) {
-    /* no seat limit check in Vaultwarden
     const billingMetadata = await firstValueFrom(this.billingMetadata$);
     if (
       organization.hasReseller &&
@@ -615,7 +615,6 @@ export class MembersComponent extends BaseMembersComponent<OrganizationUserView>
 
       return;
     }
-    end of seat limit check */
 
     await this.handleInviteDialog(organization);
   }

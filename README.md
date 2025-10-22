@@ -6,10 +6,10 @@
 
 #### :warning: Branch will be rebased and forced-pushed when updated. :warning:
 
-#### :warning: web-vault builds for [timshel/OIDCWarden](https://github.com/timshel/OIDCWarden). For [timshel/vaultwarden](https://github.com/Timshel/OIDCWarden) go to [oidc_web_builds](https://github.com/Timshel/oidc_web_builds)
-
 This is a repository to build custom versions of the [Bitwarden web vault](https://github.com/bitwarden/clients/tree/master/apps/web) patched to work with [Timshel/OIDCWarden](https://github.com/Timshel/OIDCWarden).
 This integrates modifications from [vaultwarden/vw_web_builds](https://github.com/vaultwarden/vw_web_builds).
+
+Since `v2025.9.1-1` the clients build should be compatible with [Vaultwarden](https://github.com/dani-garcia/vaultwarden).
 
 This generate two different versions :
 

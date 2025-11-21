@@ -1,5 +1,9 @@
 # Changelog
 
+## v2025.11.1-2
+
+- Fix a crash when opening Org policies
+
 ## v2025.11.1-1
 
 - Release based on `web-v2025.11.1`

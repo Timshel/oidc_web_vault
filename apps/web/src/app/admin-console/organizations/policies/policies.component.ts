@@ -132,13 +132,15 @@ export class PoliciesComponent implements OnInit {
   }
 
   async load() {
-    const response = await this.policyApiService.getPolicies(this.organizationId);
-    this.orgPolicies = response.data != null && response.data.length > 0 ? response.data : [];
-    this.orgPolicies.forEach((op) => {
-      this.policiesEnabledMap.set(op.type, op.enabled);
-    });
+    if (this.organizationId !== undefined) {
+      const response = await this.policyApiService.getPolicies(this.organizationId);
+      this.orgPolicies = response.data != null && response.data.length > 0 ? response.data : [];
+      this.orgPolicies.forEach((op) => {
+        this.policiesEnabledMap.set(op.type, op.enabled);
+      });
 
-    this.loading = false;
+      this.loading = false;
+    }
   }
 
   async edit(policy: BasePolicyEditDefinition) {

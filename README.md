@@ -16,6 +16,7 @@ This generate two different versions :
 - `button` default version with no change to the login flow [vw_web_builds](https://github.com/vaultwarden/vw_web_builds))
 - `override` add additionally :
   - set `#sso` as the default redirect url
+  - Fix remember device when using 2FA (this won't work when using multiple account in the same session).
   - remove some unnecessary logic ([patch](oidc_override.patch))
 
 ## Building the web-vault

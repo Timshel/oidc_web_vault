@@ -2,7 +2,7 @@
 
 ## v2025.12.0-2
 
-- Fix remember device when using 2FA with the override client.
+- Fix remember device when using 2FA with the `override` client.
   This won't work when using multiple account in the same session.
 
 ## v2025.12.0-1

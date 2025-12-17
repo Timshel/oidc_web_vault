@@ -1,12 +1,16 @@
 Subject: [PATCH] SSO login as default, hide sso identifier
 
 ---
- .../src/auth/guards/redirect/redirect.guard.ts      |  2 +-
- .../set-initial-password.component.ts               |  1 +
- libs/auth/src/angular/sso/sso.component.html        | 13 ++++++++-----
- .../organization-auto-enroll-status.response.ts     |  2 ++
- .../src/platform/models/domain/server-settings.ts   |  2 +-
- 5 files changed, 13 insertions(+), 7 deletions(-)
+ .../auth/guards/redirect/redirect.guard.ts    |  2 +-
+ .../set-initial-password.component.ts         |  1 +
+ libs/auth/src/angular/sso/sso.component.html  | 13 +++++----
+ .../common/login-strategies/login.strategy.ts | 27 +++++++------------
+ .../default-login-success-handler.service.ts  |  9 -------
+ ...rganization-auto-enroll-status.response.ts |  2 ++
+ .../src/auth/abstractions/token.service.ts    | 20 +++++++-------
+ .../common/src/auth/services/token.service.ts | 12 ++++-----
+ .../platform/models/domain/server-settings.ts |  2 +-
+ 9 files changed, 38 insertions(+), 50 deletions(-)
 
 diff --git a/libs/angular/src/auth/guards/redirect/redirect.guard.ts b/libs/angular/src/auth/guards/redirect/redirect.guard.ts
 index 33a27dd4bc..30a045d7fc 100644
@@ -58,6 +62,80 @@ index be38f63987..c726e7ff8e 100644
          {{ "continue" | i18n }}
        </button>
      </div>
+diff --git a/libs/auth/src/common/login-strategies/login.strategy.ts b/libs/auth/src/common/login-strategies/login.strategy.ts
+index b8e4ee9e82..f7fee00f91 100644
+--- a/libs/auth/src/common/login-strategies/login.strategy.ts
++++ b/libs/auth/src/common/login-strategies/login.strategy.ts
+@@ -154,15 +154,10 @@ export abstract class LoginStrategy {
+       return userProvidedTwoFactor;
+     }
+ 
+-    if (email) {
+-      const storedTwoFactorToken = await this.tokenService.getTwoFactorToken(email);
+-      if (storedTwoFactorToken != null) {
+-        return new TokenTwoFactorRequest(
+-          TwoFactorProviderType.Remember,
+-          storedTwoFactorToken,
+-          false,
+-        );
+-      }
++    const appId = await this.appIdService.getAppId();
++    const storedTwoFactorToken = await this.tokenService.getTwoFactorToken(appId);
++    if (storedTwoFactorToken != null) {
++      return new TokenTwoFactorRequest(TwoFactorProviderType.Remember, storedTwoFactorToken, false);
+     }
+ 
+     return new TokenTwoFactorRequest();
+@@ -250,10 +245,8 @@ export abstract class LoginStrategy {
+     result.resetMasterPassword = response.resetMasterPassword;
+ 
+     if (response.twoFactorToken != null) {
+-      // note: we can read email from access token b/c it was saved in saveAccountInformation
+-      const userEmail = await this.tokenService.getEmail();
+-
+-      await this.tokenService.setTwoFactorToken(userEmail, response.twoFactorToken);
++      const appId = await this.appIdService.getAppId();
++      await this.tokenService.setTwoFactorToken(appId, response.twoFactorToken);
+     }
+ 
+     await this.setMasterKey(response, userId);
+@@ -350,13 +343,11 @@ export abstract class LoginStrategy {
+   }
+ 
+   /**
+-   * Clears the 2FA token from the token service using the user's email if it exists
++   * Clears the 2FA token from the token service
+    */
+   private async clearTwoFactorToken() {
+-    const email = this.cache.value.userEnteredEmail;
+-    if (email) {
+-      await this.tokenService.clearTwoFactorToken(email);
+-    }
++    const appId = await this.appIdService.getAppId();
++    await this.tokenService.clearTwoFactorToken(appId);
+   }
+ 
+   /**
+diff --git a/libs/auth/src/common/services/login-success-handler/default-login-success-handler.service.ts b/libs/auth/src/common/services/login-success-handler/default-login-success-handler.service.ts
+index 27d058c311..1bebbc63d0 100644
+--- a/libs/auth/src/common/services/login-success-handler/default-login-success-handler.service.ts
++++ b/libs/auth/src/common/services/login-success-handler/default-login-success-handler.service.ts
+@@ -21,15 +21,6 @@ export class DefaultLoginSuccessHandlerService implements LoginSuccessHandlerSer
+     await this.syncService.fullSync(true, { skipTokenRefresh: true });
+     await this.userAsymmetricKeysRegenerationService.regenerateIfNeeded(userId);
+     await this.loginEmailService.clearLoginEmail();
+-
+-    const ssoLoginEmail = await this.ssoLoginService.getSsoEmail();
+-
+-    if (!ssoLoginEmail) {
+-      this.logService.error("SSO login email not found.");
+-      return;
+-    }
+-
+-    await this.ssoLoginService.updateSsoRequiredCache(ssoLoginEmail, userId);
+     await this.ssoLoginService.clearSsoEmail();
+   }
+ }
 diff --git a/libs/common/src/admin-console/models/response/organization-auto-enroll-status.response.ts b/libs/common/src/admin-console/models/response/organization-auto-enroll-status.response.ts
 index f2d22fafcd..b27e3f0e25 100644
 --- a/libs/common/src/admin-console/models/response/organization-auto-enroll-status.response.ts
@@ -76,6 +154,90 @@ index f2d22fafcd..b27e3f0e25 100644
      this.resetPasswordEnabled = this.getResponseProperty("ResetPasswordEnabled");
    }
  }
+diff --git a/libs/common/src/auth/abstractions/token.service.ts b/libs/common/src/auth/abstractions/token.service.ts
+index 673bc7bdf0..3c06cef284 100644
+--- a/libs/common/src/auth/abstractions/token.service.ts
++++ b/libs/common/src/auth/abstractions/token.service.ts
+@@ -122,28 +122,28 @@ export abstract class TokenService {
+   abstract getClientSecret(userId: UserId): Promise<string | undefined>;
+ 
+   /**
+-   * Sets the two factor token for the given email in global state.
++   * Sets the two factor token for the given appId in global state.
+    * The two factor token is set when the user checks "remember me" when completing two factor
+    * authentication and it is used to bypass two factor authentication for a period of time.
+-   * @param email The email to set the two factor token for.
++   * @param appId The appId to set the two factor token for.
+    * @param twoFactorToken The two factor token to set.
+    * @returns A promise that resolves when the two factor token has been set.
+    */
+-  abstract setTwoFactorToken(email: string, twoFactorToken: string): Promise<void>;
++  abstract setTwoFactorToken(appId: string, twoFactorToken: string): Promise<void>;
+ 
+   /**
+-   * Gets the two factor token for the given email.
+-   * @param email The email to get the two factor token for.
+-   * @returns A promise that resolves with the two factor token for the given email or null if it isn't found.
++   * Gets the two factor token for the given appId.
++   * @param appId The appId to get the two factor token for.
++   * @returns A promise that resolves with the two factor token for the appId email or null if it isn't found.
+    */
+-  abstract getTwoFactorToken(email: string): Promise<string | null>;
++  abstract getTwoFactorToken(appId: string): Promise<string | null>;
+ 
+   /**
+-   * Clears the two factor token for the given email out of global state.
+-   * @param email The email to clear the two factor token for.
++   * Clears the two factor token for the given appId out of global state.
++   * @param appId The appId to clear the two factor token for.
+    * @returns A promise that resolves when the two factor token has been cleared.
+    */
+-  abstract clearTwoFactorToken(email: string): Promise<void>;
++  abstract clearTwoFactorToken(appId: string): Promise<void>;
+ 
+   /**
+    * Decodes the access token.
+diff --git a/libs/common/src/auth/services/token.service.ts b/libs/common/src/auth/services/token.service.ts
+index c02bc85f12..aeccd8c07f 100644
+--- a/libs/common/src/auth/services/token.service.ts
++++ b/libs/common/src/auth/services/token.service.ts
+@@ -860,16 +860,16 @@ export class TokenService implements TokenServiceAbstraction {
+     await this.singleUserStateProvider.get(userId, API_KEY_CLIENT_SECRET_DISK).update((_) => null);
+   }
+ 
+-  async setTwoFactorToken(email: string, twoFactorToken: string): Promise<void> {
++  async setTwoFactorToken(appId: string, twoFactorToken: string): Promise<void> {
+     await this.emailTwoFactorTokenRecordGlobalState.update((emailTwoFactorTokenRecord) => {
+       emailTwoFactorTokenRecord ??= {};
+ 
+-      emailTwoFactorTokenRecord[email] = twoFactorToken;
++      emailTwoFactorTokenRecord[appId] = twoFactorToken;
+       return emailTwoFactorTokenRecord;
+     });
+   }
+ 
+-  async getTwoFactorToken(email: string): Promise<string | null> {
++  async getTwoFactorToken(appId: string): Promise<string | null> {
+     const emailTwoFactorTokenRecord: Record<string, string> = await firstValueFrom(
+       this.emailTwoFactorTokenRecordGlobalState.state$,
+     );
+@@ -878,13 +878,13 @@ export class TokenService implements TokenServiceAbstraction {
+       return null;
+     }
+ 
+-    return emailTwoFactorTokenRecord[email];
++    return emailTwoFactorTokenRecord[appId];
+   }
+ 
+-  async clearTwoFactorToken(email: string): Promise<void> {
++  async clearTwoFactorToken(appId: string): Promise<void> {
+     await this.emailTwoFactorTokenRecordGlobalState.update((emailTwoFactorTokenRecord) => {
+       emailTwoFactorTokenRecord ??= {};
+-      delete emailTwoFactorTokenRecord[email];
++      delete emailTwoFactorTokenRecord[appId];
+       return emailTwoFactorTokenRecord;
+     });
+   }
 diff --git a/libs/common/src/platform/models/domain/server-settings.ts b/libs/common/src/platform/models/domain/server-settings.ts
 index d045a91483..da903662bc 100644
 --- a/libs/common/src/platform/models/domain/server-settings.ts
@@ -91,3 +253,4 @@ index d045a91483..da903662bc 100644
    }
 -- 
 2.47.3
+

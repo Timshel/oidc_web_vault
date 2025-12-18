@@ -19,6 +19,17 @@ This generate two different versions :
   - Fix remember device when using 2FA (this won't work when using multiple account in the same session).
   - remove some unnecessary logic ([patch](oidc_override.patch))
 
+## `override` client limitations
+
+### Remember device 2FA
+
+The feature will not work when using multiple accounts on the same device.
+/
+When activating remember device a token is generated server side, associated with the device and user and sent to the client.
+On the client side this token is stored but only associated with the device since when used the user is not yet known.
+/
+This means that when logging in with a second user the stored token will be overriden and the remember device only work with this new session.
+
 ## Building the web-vault
 
 To build the web-vault you need node `20` cf [.nvmrc](.nvmrc) and npm installed.

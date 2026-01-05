@@ -51,7 +51,6 @@
     <ng-content select="[slot=secondary]"></ng-content>
   </div>
 
-<<<<<<< HEAD
   @if (!hideFooter()) {
     <footer class="tw-text-center tw-mt-4 sm:tw-mt-6">
       @if (showReadonlyHostname()) {
@@ -61,24 +60,10 @@
       }
 
       @if (!hideYearAndVersion) {
-        <div bitTypography="body2">&copy; {{ year }} Bitwarden Inc.</div>
         <div bitTypography="body2">{{ version }}</div>
       }
     </footer>
   }
-=======
-  <footer *ngIf="!hideFooter()" class="tw-text-center tw-mt-4 sm:tw-mt-6">
-    <div *ngIf="showReadonlyHostname()" bitTypography="body2">
-      {{ "accessing" | i18n }} {{ hostname }}
-    </div>
-    <ng-container *ngIf="!showReadonlyHostname()">
-      <ng-content select="[slot=environment-selector]"></ng-content>
-    </ng-container>
-    <ng-container *ngIf="!hideYearAndVersion">
-      <div bitTypography="body2">{{ version }}</div>
-    </ng-container>
-  </footer>
->>>>>>> 3388a03dca (Icons and rename to OIDCWarden)
 
   @if (!hideBackgroundIllustration()) {
     <div

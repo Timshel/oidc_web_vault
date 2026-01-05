@@ -1,5 +1,9 @@
 # Changelog
 
+## v2025.12.1-2
+
+- Fix merge leftovers
+
 ## v2025.12.1-1
 
 - Release based on `web-v2025.12.1`

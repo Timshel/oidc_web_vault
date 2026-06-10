@@ -1,5 +1,9 @@
 # Changelog
 
+## v2026.6.0-2
+
+- Remove onboarding spam showed on each new device if the account is less than 30days old
+
 ## v2026.6.0-1
 
 - Release based on `web-v2026.6.0`

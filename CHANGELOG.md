@@ -1,5 +1,9 @@
 # Changelog
 
+## v2026.6.0-3
+
+- Fix group external ID handling
+
 ## v2026.6.0-2
 
 - Remove onboarding spam showed on each new device if the account is less than 30days old

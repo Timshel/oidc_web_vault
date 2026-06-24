@@ -463,11 +463,12 @@ const routes: Routes = [
         ],
         data: {
           pageTitle: {
-            key: "loginPageEmailEntryScreenTitle",
+            key: "logIn",
           },
+          pageIcon: VaultIcon,
           elevation: 1,
           showAcctSwitcher: true,
-          hidePageIcon: true,
+          hidePageIcon: false,
           contentVerticalPadding: "compact",
           footerVerticalPadding: "compact",
           heroTextAlignment: "left",

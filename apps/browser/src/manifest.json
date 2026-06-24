@@ -1,18 +1,15 @@
 {
   "manifest_version": 2,
-  "name": "__MSG_extName__",
-  "short_name": "Bitwarden",
+  "name": "OIDCWarden",
+  "short_name": "OIDCWarden for AMO",
   "version": "2026.8.0",
-  "description": "__MSG_extDesc__",
+  "description": "Extension for OIDCWarden and Vaultwarden",
   "default_locale": "en",
-  "author": "Bitwarden Inc.",
-  "homepage_url": "https://bitwarden.com",
+  "author": "Timshel",
+  "homepage_url": "https://github.com/Timshel/OIDCWarden",
   "icons": {
-    "16": "images/icon16.png",
-    "32": "images/icon32.png",
-    "48": "images/icon48.png",
-    "96": "images/icon96.png",
-    "128": "images/icon128.png"
+    "48": "images/icon.svg",
+    "96": "images/icon.svg"
   },
   "content_scripts": [
     {
@@ -37,10 +34,10 @@
   },
   "browser_action": {
     "default_icon": {
-      "19": "images/icon19.png",
-      "38": "images/icon38.png"
+      "19": "images/icon.svg",
+      "38": "images/icon.svg"
     },
-    "default_title": "Bitwarden",
+    "default_title": "OIDCWarden",
     "default_popup": "popup/index.html"
   },
   "permissions": [
@@ -131,8 +128,15 @@
   "web_accessible_resources": [
     "content/fido2-page-script.js",
     "notification/bar.html",
+    "images/icon.svg",
+    "images/icon19.png",
     "images/icon38.png",
-    "images/icon38_locked.png",
+    "images/icon_berry19.png",
+    "images/icon_berry38.png",
+    "images/icon_locked19.png",
+    "images/icon_locked38.png",
+    "images/icon_logged19.png",
+    "images/icon_logged38.png",
     "overlay/menu-button.html",
     "overlay/menu-list.html",
     "overlay/menu.html",
@@ -140,21 +144,24 @@
   ],
   "__firefox__browser_specific_settings": {
     "gecko": {
-      "id": "{446900e4-71c2-419f-a6a7-df9c091e268b}",
-      "strict_min_version": "91.0"
+      "id": "{3b702b91-04ba-4ae4-b857-c5b65670c42d}",
+      "strict_min_version": "91.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   },
   "__firefox__sidebar_action": {
-    "default_title": "Bitwarden",
+    "default_title": "OIDCWarden",
     "default_panel": "popup/index.html?uilocation=sidebar",
-    "default_icon": "images/icon19.png",
+    "default_icon": "images/icon.svg",
     "open_at_install": false,
     "browser_style": false
   },
   "__opera__sidebar_action": {
-    "default_title": "Bitwarden",
+    "default_title": "OIDCWarden",
     "default_panel": "popup/index.html?uilocation=sidebar",
-    "default_icon": "images/icon19.png",
+    "default_icon": "images/icon.svg",
     "open_at_install": false,
     "browser_style": false
   },

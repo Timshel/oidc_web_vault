@@ -225,7 +225,7 @@ export abstract class BrowserPlatformUtilsService implements PlatformUtilsServic
   }
 
   isSelfHost(): boolean {
-    return false;
+    return true;
   }
 
   /**

@@ -1,15 +1,15 @@
 export const BadgeIcon = {
   Berry: {
-    19: "/images/berry19.png",
-    38: "/images/berry38.png",
+    19: "/images/icon_berry19.png",
+    38: "/images/icon_berry38.png",
   },
   LoggedOut: {
-    19: "/images/icon19_gray.png",
-    38: "/images/icon38_gray.png",
+    19: "/images/icon_logged19.png",
+    38: "/images/icon_logged38.png",
   } as IconPaths,
   Locked: {
-    19: "/images/icon19_locked.png",
-    38: "/images/icon38_locked.png",
+    19: "/images/icon_locked19.png",
+    38: "/images/icon_locked38.png",
   } as IconPaths,
   Unlocked: {
     19: "/images/icon19.png",

@@ -19,7 +19,6 @@ import {
   HeroTextAlignmentType,
   SecondaryContentLocationType,
 } from "@bitwarden/components";
-import { I18nPipe } from "@bitwarden/ui-common";
 
 import { CurrentAccountComponent } from "../../../auth/popup/account-switching/current-account.component";
 import { AccountSwitcherService } from "../../../auth/popup/account-switching/services/account-switcher.service";
@@ -44,7 +43,6 @@ export interface ExtensionAnonLayoutWrapperData extends AnonLayoutWrapperData {
     AnonLayoutComponent,
     CommonModule,
     CurrentAccountComponent,
-    I18nPipe,
     SvgModule,
     PopOutComponent,
     PopupPageComponent,

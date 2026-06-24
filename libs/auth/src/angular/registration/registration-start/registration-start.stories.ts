@@ -81,10 +81,7 @@ const decorators = (options: {
             environment$: of({
               getRegion: () => options.defaultRegion || Region.US,
             } as Partial<Environment>),
-            availableRegions: () => [
-              { key: Region.US, domain: "bitwarden.com", urls: {} },
-              { key: Region.EU, domain: "bitwarden.eu", urls: {} },
-            ],
+            availableRegions: () => [],
             setEnvironment: (region: Region, urls?: Urls) => Promise.resolve({}),
           } as Partial<EnvironmentService>,
         },

@@ -6,21 +6,6 @@
   <div class="tw-mb-1">
     <bit-menu #environmentOptions>
       <button
-        *ngFor="let region of availableRegions; let i = index"
-        bitMenuItem
-        type="button"
-        [attr.aria-pressed]="data.selectedRegion === region ? 'true' : 'false'"
-        (click)="toggle(region.key)"
-      >
-        <bit-icon
-          name="bwi-check"
-          class="bwi-fw bwi-sm"
-          style="padding-bottom: 1px"
-          [style.visibility]="data.selectedRegion === region ? 'visible' : 'hidden'"
-        ></bit-icon>
-        <span>{{ region.domain }}</span>
-      </button>
-      <button
         bitMenuItem
         type="button"
         [attr.aria-pressed]="data.selectedRegion ? 'false' : 'true'"

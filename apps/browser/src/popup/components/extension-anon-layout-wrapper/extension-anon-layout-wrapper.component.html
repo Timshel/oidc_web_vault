@@ -5,10 +5,6 @@
     [showBackButton]="showBackButton"
     [pageTitle]="''"
   >
-    <div class="tw-w-32">
-      <bit-svg *ngIf="showLogo" [content]="logo" [ariaLabel]="'appLogoLabel' | i18n"></bit-svg>
-    </div>
-
     <ng-container slot="end">
       <app-pop-out></app-pop-out>
       <app-current-account *ngIf="showAcctSwitcher && hasLoggedInAccount"></app-current-account>

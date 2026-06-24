@@ -457,7 +457,7 @@ const routes: Routes = [
         canActivate: [unauthGuardFn(unauthRouteOverrides), IntroCarouselGuard],
         data: {
           pageTitle: {
-            key: "loginPageEmailEntryScreenTitle",
+            key: "logIn",
           },
           elevation: 1,
           showAcctSwitcher: true,

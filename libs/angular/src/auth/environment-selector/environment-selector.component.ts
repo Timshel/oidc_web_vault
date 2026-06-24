@@ -36,7 +36,7 @@ export class EnvironmentSelectorComponent implements OnDestroy {
   protected selectedRegion$: Observable<RegionConfig | undefined> =
     this.environmentService.globalEnvironment$.pipe(
       map((env) =>
-        this.environmentService.availableRegions().find((ar) => ar.key === env.getRegion()),
+        this.environmentService.availableRegions().find((ar) => ar.key === Region.SelfHosted),
       ),
     );
 

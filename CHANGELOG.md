@@ -1,5 +1,9 @@
 # Changelog
 
+# v2026.6.2-2
+
+- Fix server settings
+
 ## v2026.6.2-1
 
 - Release based on `web-v2026.6.2`

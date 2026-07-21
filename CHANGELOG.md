@@ -1,5 +1,9 @@
 # Changelog
 
+# v2026.6.4-2
+
+- Firefox addon for AMO and fix `update_url`.
+
 # v2026.6.4-1
 
 - Release based on `web-v2026.6.4`

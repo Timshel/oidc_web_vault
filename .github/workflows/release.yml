@@ -50,7 +50,9 @@ jobs:
             oidc_button_web_vault.tar.gz
             oidc_override_web_vault.tar.gz
             oidc_firefox.xpi
+            firefox_update_manifest_unsigned.json
             oidc_firefox_tosign.xpi
+            firefox_update_manifest_signed.json
             oidc_chrome.zip
           draft: false
-          prerelease: false
+          prerelease: true

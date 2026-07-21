@@ -46,10 +46,48 @@ cd ../..
 ### Build Firefox extension ###
 cd apps/browser
 npm run dist:firefox
-mv dist/dist-firefox.zip ../../oidc_firefox.xpi
+mv dist/dist-firefox.zip ../../oidc_firefox_amo.xpi
 
-sed -i 's/oidc_firefox.xpi/oidc_firefox_signed.xpi/'  build/manifest.json
+contents="$(jq '.short_name = "OIDCWarden"
+  | .browser_specific_settings.gecko.id = "{130bfcb0-ded6-4af8-a39b-d07d411396b9}"
+  | .browser_specific_settings.gecko.update_url = "https://github.com/Timshel/oidc_web_vault/releases/latest/download/firefox_update_manifest_unsigned.json"
+  ' build/manifest.json \
+)" && echo -E "${contents}" > build/manifest.json
+./scripts/compress.sh ../../../oidc_firefox.xpi
+
+cat <<EOF > ../../firefox_update_manifest_unsigned.json
+{
+  "addons": {
+    "{130bfcb0-ded6-4af8-a39b-d07d411396b9}": {
+      "updates": [
+        {
+          "version": "$(echo $TAG_CURRENT | tr -d 'v')",
+          "update_link": "https://github.com/Timshel/oidc_web_vault/releases/download/$TAG_CURRENT/oidc_firefox.xpi",
+          "update_hash": "sha256:$(sha256sum ../../oidc_firefox.xpi | awk '{ print $1 }')"
+        }
+      ]
+    }
+  }
+}
+EOF
+
+contents="$(jq '.browser_specific_settings.gecko.update_url = "https://github.com/Timshel/oidc_web_vault/releases/latest/download/firefox_update_manifest_signed.json"' build/manifest.json)" && echo -E "${contents}" > build/manifest.json
 ./scripts/compress.sh ../../../oidc_firefox_tosign.xpi
+
+cat <<EOF > ../../firefox_update_manifest_signed.json
+{
+  "addons": {
+    "{130bfcb0-ded6-4af8-a39b-d07d411396b9}": {
+      "updates": [
+        {
+          "version": "$(echo $TAG_CURRENT | tr -d 'v')",
+          "update_link": "https://github.com/Timshel/oidc_web_vault/releases/download/$TAG_CURRENT/oidc_firefox_signed.xpi"
+        }
+      ]
+    }
+  }
+}
+EOF
 
 cd ../..
 

@@ -1,4 +1,8 @@
-import { KeyDefinition, ORGANIZATION_INVITE_DISK } from "../../../../platform/state";
+import {
+  KeyDefinition,
+  ORGANIZATION_INVITE_DISK,
+  OPEN_ORG_INVITE_DISK_LOCAL,
+} from "../../../../platform/state";
 import { DirectOrganizationInvite } from "../../models/direct-organization-invite";
 import { OpenOrganizationInvite } from "../../models/open-organization-invite";
 
@@ -26,7 +30,7 @@ export const DIRECT_ORGANIZATION_INVITE = new KeyDefinition<DirectOrganizationIn
  * Greenfield key — no migration needed because no prior data exists under this name.
  */
 export const OPEN_ORGANIZATION_INVITE = new KeyDefinition<OpenOrganizationInvite | null>(
-  ORGANIZATION_INVITE_DISK,
+  OPEN_ORG_INVITE_DISK_LOCAL,
   "openOrganizationInvite",
   {
     deserializer: (invite) => (invite ? OpenOrganizationInvite.fromJSON(invite) : null),

@@ -1,5 +1,9 @@
 # Changelog
 
+# v2026.8.1-2
+
+- Fix for Organization invite with SSO login
+
 # v2026.8.1-1
 
 - Release based on `web-v2026.8.1`

@@ -1,6 +1,6 @@
 {
   "name": "@bitwarden/web-vault",
-  "version": "2026.8.1-1",
+  "version": "2026.8.1-2",
   "scripts": {
     "build:oss": "webpack",
     "build:oss:watch": "webpack serve",

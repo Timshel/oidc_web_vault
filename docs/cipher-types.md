@@ -136,24 +136,9 @@ Three apps maintain independent locale files. Each new cipher type needs i18n ke
 | App     | English locale file                          |
 | ------- | -------------------------------------------- |
 | Web     | `apps/web/src/locales/en/messages.json`      |
-| Desktop | `apps/desktop/src/locales/en/messages.json`  |
 | Browser | `apps/browser/src/_locales/en/messages.json` |
-| CLI     | `apps/cli/src/locales/en/messages.json`      |
 
 > Translations for non-English locales are handled separately via Crowdin. Only add keys to the `en` files.
-
----
-
-## 6. CLI
-
-| Concern               | File                                                                    |
-| --------------------- | ----------------------------------------------------------------------- |
-| Cipher response model | `apps/cli/src/vault/models/cipher.response.ts`                          |
-| Get command           | `apps/cli/src/commands/get.command.ts`                                  |
-| Create command        | `apps/cli/src/vault/create.command.ts`                                  |
-| Delete command        | `apps/cli/src/vault/delete.command.ts`                                  |
-| Restricted types svc  | `apps/cli/src/vault/services/cli-restricted-item-types.service.ts`      |
-| Restricted types spec | `apps/cli/src/vault/services/cli-restricted-item-types.service.spec.ts` |
 
 ---
 
@@ -337,7 +322,6 @@ In the view model, properties that can be linked are decorated with `@linkedFiel
 | Cipher form component         | `libs/vault/src/cipher-form/components/cipher-form.component.spec.ts`               |
 | Cipher view component         | `libs/vault/src/cipher-view/cipher-view.component.spec.ts`                          |
 | Restricted types              | `libs/common/src/vault/services/restricted-item-types.service.spec.ts`              |
-| CLI restricted types          | `apps/cli/src/vault/services/cli-restricted-item-types.service.spec.ts`             |
 | Import service                | `libs/importer/src/services/import.service.spec.ts`                                 |
 | Export services               | `libs/tools/export-vault-core/src/services/individual-vault-export.service.spec.ts` |
 
@@ -406,11 +390,6 @@ In the view model, properties that can be linked are decorated with `@linkedFiel
 - [ ] `apps/desktop/src/locales/en/messages.json`
 - [ ] `apps/browser/src/_locales/en/messages.json`
 - [ ] `apps/cli/src/locales/en/messages.json`
-
-**CLI:**
-
-- [ ] `apps/cli/src/vault/models/cipher.response.ts`
-- [ ] `apps/cli/src/commands/get.command.ts`
 
 **Import/Export:**
 

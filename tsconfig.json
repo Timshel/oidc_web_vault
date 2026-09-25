@@ -2,8 +2,6 @@
   "extends": "./tsconfig.base.json",
   "include": [
     "apps/browser/src/**/*",
-    "apps/cli/src/**/*",
-    "apps/desktop/src/**/*",
     "apps/web/src/**/*",
     "libs/*/src/**/*",
     "libs/tools/send/**/src/**/*",
@@ -11,8 +9,6 @@
   ],
   "exclude": [
     "apps/browser/src/**/*.spec.ts",
-    "apps/cli/src/**/*.spec.ts",
-    "apps/desktop/src/**/*.spec.ts",
     "apps/web/src/**/*.spec.ts",
     "libs/*/src/**/*.spec.ts",
     "**/*.spec-util.ts"

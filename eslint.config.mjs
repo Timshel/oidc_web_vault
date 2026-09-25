@@ -336,22 +336,6 @@ export default tseslint.config(
     },
   },
 
-  // Desktop app overrides
-  {
-    files: ["apps/desktop/src/**/*.ts"],
-    rules: {
-      "no-restricted-syntax": [
-        "error",
-        {
-          selector:
-            "CallExpression[callee.type='MemberExpression'][callee.object.name='shell'][callee.property.name='openExternal']",
-          message:
-            "Do not call shell.openExternal() directly. Use SafeShell.openExternal() instead.",
-        },
-      ],
-    },
-  },
-
   // App overrides. Be considerate if you override these.
   {
     files: ["apps/browser/src/**/*.ts"],
@@ -746,7 +730,6 @@ export default tseslint.config(
   /// Team overrides
   {
     files: [
-      "apps/cli/src/admin-console/**/*.ts",
       "apps/web/src/app/admin-console/**/*.ts",
       "bitwarden_license/bit-cli/src/admin-console/**/*.ts",
       "bitwarden_license/bit-web/src/app/admin-console/**/*.ts",
@@ -829,13 +812,9 @@ export default tseslint.config(
       "apps/browser/config/config.js",
       "apps/browser/webpack/manifest.js",
 
-      "apps/desktop/desktop_native",
-
       "apps/web/config.js",
       "apps/web/scripts/*.js",
       "apps/web/tailwind.config.js",
-
-      "apps/cli/config/config.js",
 
       "tailwind.config.js",
       "libs/components/tailwind.config.base.js",

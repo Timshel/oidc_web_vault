@@ -1,5 +1,9 @@
 # Changelog
 
+# v2026.10.1-2
+
+- Fix `web-vault` version
+
 # v2026.10.1-1
 
 - Release based on `web-v2026.10.1`
